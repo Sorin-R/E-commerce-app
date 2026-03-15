@@ -1,0 +1,57 @@
+services:
+  - type: web
+    runtime: node
+    name: ecommerce-application-backend-api
+    rootDir: server
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: SESSION_SECRET
+        generateValue: true
+      - key: SESSION_COOKIE_NAME
+        value: ecommerce_application_session_id_cookie_value
+      - key: SESSION_COOKIE_MAX_AGE_IN_MILLISECONDS
+        value: 86400000
+      - key: SESSION_COOKIE_SAME_SITE
+        value: none
+      - key: SESSION_COOKIE_SECURE
+        value: "true"
+      - key: FRONTEND_APPLICATION_URL
+        sync: false
+      - key: BACKEND_APPLICATION_URL
+        sync: false
+      - key: DATABASE_URL
+        sync: false
+      - key: STRIPE_SECRET_KEY
+        sync: false
+      - key: GOOGLE_OAUTH_CLIENT_ID
+        sync: false
+      - key: GOOGLE_OAUTH_CLIENT_SECRET
+        sync: false
+      - key: GOOGLE_OAUTH_CALLBACK_URL
+        sync: false
+      - key: FACEBOOK_OAUTH_APP_ID
+        sync: false
+      - key: FACEBOOK_OAUTH_APP_SECRET
+        sync: false
+      - key: FACEBOOK_OAUTH_CALLBACK_URL
+        sync: false
+
+  - type: web
+    runtime: static
+    name: ecommerce-client-application-frontend
+    rootDir: client
+    buildCommand: npm install && npm run build
+    staticPublishPath: ./client/build
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+    envVars:
+      - key: REACT_APP_BACKEND_BASE_URL
+        sync: false
+      - key: REACT_APP_STRIPE_PUBLISHABLE_KEY
+        sync: false

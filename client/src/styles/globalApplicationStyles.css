@@ -2,6 +2,7 @@
   box-sizing: border-box;
 }
 
+/* I keep base body style here so all pages look same from start. */
 body {
   margin: 0;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
