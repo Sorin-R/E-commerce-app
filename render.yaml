@@ -45,7 +45,7 @@ services:
     name: ecommerce-client-application-frontend
     rootDir: client
     buildCommand: npm install && npm run build
-    staticPublishPath: ./client/build
+    staticPublishPath: build
     routes:
       - type: rewrite
         source: /*
