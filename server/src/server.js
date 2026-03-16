@@ -16,12 +16,12 @@ dotenv.config();
 const backendApplicationServer = express();
 const backendApplicationServerPortValue = process.env.PORT || 3001;
 const frontendApplicationUrlListTextValue =
-  process.env.FRONTEND_APPLICATION_URL || "http://localhost:3000";
+  process.env.FRONTEND_APPLICATION_URL || "";
 const allowedFrontendCorsOriginTextListValue =
   frontendApplicationUrlListTextValue
     .split(",")
     .map((allowedFrontendCorsOriginTextValue) =>
-      allowedFrontendCorsOriginTextValue.trim()
+      normalizeCorsOriginTextValue(allowedFrontendCorsOriginTextValue)
     )
     .filter(Boolean);
 const sessionCookieNameValue =
@@ -55,11 +55,22 @@ backendApplicationServer.use(
         return;
       }
 
-      if (allowedFrontendCorsOriginTextListValue.includes(requestOriginValue)) {
+      const normalizedRequestOriginTextValue =
+        normalizeCorsOriginTextValue(requestOriginValue);
+      const isRequestOriginAllowedByConfiguredCorsOriginListValue =
+        !allowedFrontendCorsOriginTextListValue.length ||
+        allowedFrontendCorsOriginTextListValue.includes(
+          normalizedRequestOriginTextValue
+        );
+
+      if (isRequestOriginAllowedByConfiguredCorsOriginListValue) {
         corsOriginValidationDoneCallbackFunctionValue(null, true);
         return;
       }
 
+      console.warn(
+        `Blocked CORS origin: ${requestOriginValue}. Allowed list: ${allowedFrontendCorsOriginTextListValue.join(", ")}`
+      );
       corsOriginValidationDoneCallbackFunctionValue(
         new Error("Request origin is not allowed by backend CORS policy.")
       );
@@ -128,4 +139,23 @@ function buildNormalizedSessionCookieSameSitePolicyTextValue(
   }
 
   return "lax";
+}
+
+function normalizeCorsOriginTextValue(corsOriginTextValue) {
+  const normalizedCorsOriginTextValue = String(corsOriginTextValue || "")
+    .trim()
+    .replace(/\/+$/, "");
+
+  if (!normalizedCorsOriginTextValue) {
+    return "";
+  }
+
+  try {
+    const corsOriginUrlObjectValue = new URL(normalizedCorsOriginTextValue);
+    return `${corsOriginUrlObjectValue.protocol}//${corsOriginUrlObjectValue.host}`
+      .toLowerCase()
+      .trim();
+  } catch {
+    return normalizedCorsOriginTextValue.toLowerCase().trim();
+  }
 }
