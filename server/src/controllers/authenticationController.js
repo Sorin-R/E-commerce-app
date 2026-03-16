@@ -63,14 +63,13 @@ async function loginUserWithUsernameAndPasswordController(request, response) {
         foundUserRecordData
       );
 
-    if (!resolvedUserIdValue) {
-      throw new Error(
-        "Authenticated user id value is missing in users table row."
-      );
-    }
-
     const authenticatedUserSessionPayloadObject = {
-      id: resolvedUserIdValue,
+      id:
+        resolvedUserIdValue ||
+        resolveUsernameTextValueFromDatabaseUserRowPayloadObjectValue(
+          foundUserRecordData
+        ) ||
+        `session_user_${Date.now()}`,
       username:
         resolveUsernameTextValueFromDatabaseUserRowPayloadObjectValue(
           foundUserRecordData
@@ -112,7 +111,8 @@ async function loginUserWithUsernameAndPasswordController(request, response) {
     }
 
     return response.status(500).json({
-      message: "Server error when trying login."
+      message: "Server error when trying login.",
+      errorCodeValue: error.code || null
     });
   }
 }
@@ -218,7 +218,12 @@ function getAuthenticatedSessionStatusController(request, response) {
 async function findOneUserRecordForLocalLoginByUsernameFromDatabase({
   usernameTextValue
 }) {
-  const supportedUsernameColumnNameListValue = ["username", "user_name"];
+  const supportedUsernameColumnNameListValue = [
+    "username",
+    "user_name",
+    "email",
+    "email_address"
+  ];
 
   for (const usernameColumnNameValue of supportedUsernameColumnNameListValue) {
     try {
@@ -226,7 +231,7 @@ async function findOneUserRecordForLocalLoginByUsernameFromDatabase({
         `
           SELECT *
           FROM users
-          WHERE LOWER(${usernameColumnNameValue}) = LOWER($1)
+          WHERE LOWER(CAST(${usernameColumnNameValue} AS TEXT)) = LOWER($1)
           LIMIT 1
         `,
         [usernameTextValue]
@@ -267,11 +272,15 @@ async function compareLoginPasswordWithStoredCredentialTextValue({
   plainPasswordTextValue,
   storedCredentialTextValue
 }) {
-  if (checkIfStoredCredentialLooksLikeBcryptHash(storedCredentialTextValue)) {
-    return bcrypt.compare(plainPasswordTextValue, storedCredentialTextValue);
-  }
+  try {
+    if (checkIfStoredCredentialLooksLikeBcryptHash(storedCredentialTextValue)) {
+      return bcrypt.compare(plainPasswordTextValue, storedCredentialTextValue);
+    }
 
-  return String(plainPasswordTextValue) === String(storedCredentialTextValue);
+    return String(plainPasswordTextValue) === String(storedCredentialTextValue);
+  } catch {
+    return false;
+  }
 }
 
 function checkIfStoredCredentialLooksLikeBcryptHash(storedCredentialTextValue) {
@@ -284,6 +293,8 @@ function resolveUserIdValueFromDatabaseUserRowPayloadObjectValue(
   const candidateUserIdValue =
     databaseUserRowPayloadObjectValue.id ??
     databaseUserRowPayloadObjectValue.user_id ??
+    databaseUserRowPayloadObjectValue.userid ??
+    databaseUserRowPayloadObjectValue.uuid ??
     null;
 
   if (candidateUserIdValue === null || candidateUserIdValue === undefined) {

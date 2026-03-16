@@ -21,11 +21,22 @@ function requireAuthenticatedSessionUserMiddleware(request, response, next) {
 
   const passportSessionUserIdValue = request.user?.id || null;
   const storedSessionUserIdValue = request.session?.authenticatedUser?.id || null;
+  const normalizedPassportSessionUserIdTextValue = String(
+    passportSessionUserIdValue || ""
+  )
+    .trim()
+    .toLowerCase();
+  const normalizedStoredSessionUserIdTextValue = String(
+    storedSessionUserIdValue || ""
+  )
+    .trim()
+    .toLowerCase();
 
   if (
     passportSessionUserIdValue &&
     storedSessionUserIdValue &&
-    Number(passportSessionUserIdValue) !== Number(storedSessionUserIdValue)
+    normalizedPassportSessionUserIdTextValue !==
+      normalizedStoredSessionUserIdTextValue
   ) {
     return response.status(401).json({
       message: "Session user id validation failed for this protected resource."

@@ -355,6 +355,38 @@ async function findOneUserRecordBySessionIdFromDatabase({
     }
   }
 
+  const supportedUsernameLookupColumnNameListValue = [
+    "username",
+    "user_name",
+    "email",
+    "email_address"
+  ];
+
+  for (const usernameLookupColumnNameValue of supportedUsernameLookupColumnNameListValue) {
+    try {
+      const authenticatedUserSearchQueryResult =
+        await postgresDatabasePoolConnection.query(
+          `
+            SELECT *
+            FROM users
+            WHERE CAST(${usernameLookupColumnNameValue} AS TEXT) = $1
+            LIMIT 1
+          `,
+          [String(authenticatedUserIdValue)]
+        );
+
+      if (authenticatedUserSearchQueryResult.rowCount > 0) {
+        return authenticatedUserSearchQueryResult.rows[0];
+      }
+    } catch (error) {
+      if (error.code === "42703") {
+        continue;
+      }
+
+      throw error;
+    }
+  }
+
   return null;
 }
 
