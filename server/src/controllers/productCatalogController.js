@@ -59,21 +59,12 @@ const fallbackProductCatalogListForDevelopmentUsage = [
 
 async function getProductCatalogListController(request, response) {
   try {
-    // I try load products from postgres table first, this is main real source.
-    const productCatalogQueryResult = await postgresDatabasePoolConnection.query(
-      `
-        SELECT
-          id,
-          name,
-          description,
-          image_url
-        FROM products
-        ORDER BY id ASC
-      `
-    );
+    // I load all columns so this endpoint still work even when db schema names are different.
+    const productCatalogRowsFromDatabaseDataSourceListValue =
+      await loadProductCatalogRowsFromDatabaseDataSourceListValue();
 
     const mappedProductCatalogListForResponse =
-      productCatalogQueryResult.rows.map(
+      productCatalogRowsFromDatabaseDataSourceListValue.map(
         mapDatabaseProductRowToPublicProductPayload
       );
 
@@ -83,20 +74,14 @@ async function getProductCatalogListController(request, response) {
       products: mappedProductCatalogListForResponse
     });
   } catch (error) {
-    // If products table is missing now, I still return fallback list so frontend works.
-    if (error.code === "42P01") {
-      return response.status(200).json({
-        message:
-          "Products table not found, fallback development list is returned.",
-        source: "fallback",
-        products: fallbackProductCatalogListForDevelopmentUsage
-      });
-    }
-
     console.error("Products listing endpoint error:", error);
 
-    return response.status(500).json({
-      message: "Server error when trying load products list."
+    // I return fallback products so frontend listing still work when db query has issue.
+    return response.status(200).json({
+      message:
+        "Products list loaded from fallback list because database query failed.",
+      source: "fallback",
+      products: fallbackProductCatalogListForDevelopmentUsage
     });
   }
 }
@@ -136,19 +121,51 @@ async function getSingleProductDetailsByIdController(request, response) {
 }
 
 function mapDatabaseProductRowToPublicProductPayload(databaseProductRowObject) {
+  const resolvedProductIdValue =
+    resolveProductIdFromDatabaseRowObjectValue(databaseProductRowObject);
+  const normalizedProductNameTextValue =
+    databaseProductRowObject.name ||
+    databaseProductRowObject.product_name ||
+    databaseProductRowObject.title ||
+    `Product ${resolvedProductIdValue || "Item"}`;
   const normalizedProductDescriptionTextValue =
-    databaseProductRowObject.description || "No description available for now.";
+    databaseProductRowObject.description ||
+    databaseProductRowObject.product_description ||
+    databaseProductRowObject.short_description ||
+    "No description available for now.";
+  const normalizedKnownProductUnitPriceAmountValue =
+    parseKnownNumberValueSafely(
+      databaseProductRowObject.unit_price_amount ??
+        databaseProductRowObject.unit_price ??
+        databaseProductRowObject.price ??
+        databaseProductRowObject.product_price_amount ??
+        null
+    );
 
   return {
-    id: databaseProductRowObject.id,
-    name: databaseProductRowObject.name,
+    id: resolvedProductIdValue,
+    name: normalizedProductNameTextValue,
     description: normalizedProductDescriptionTextValue,
     detailedDescriptionText:
+      databaseProductRowObject.detailed_description_text ||
+      databaseProductRowObject.detailed_description ||
       `${normalizedProductDescriptionTextValue} Product details loaded from database endpoint.`,
-    unitPriceAmount: null,
-    currencyCode: "USD",
-    availabilityStatusText: "In Stock",
-    imageUrl: databaseProductRowObject.image_url || null
+    unitPriceAmount: normalizedKnownProductUnitPriceAmountValue,
+    currencyCode:
+      databaseProductRowObject.currency_code ||
+      databaseProductRowObject.currency ||
+      "USD",
+    availabilityStatusText:
+      databaseProductRowObject.availability_status_text ||
+      databaseProductRowObject.availability_status ||
+      databaseProductRowObject.stock_status ||
+      "In Stock",
+    imageUrl:
+      databaseProductRowObject.image_url ||
+      databaseProductRowObject.image ||
+      databaseProductRowObject.image_link ||
+      databaseProductRowObject.image_src ||
+      null
   };
 }
 
@@ -166,34 +183,28 @@ async function getSingleProductDetailsByIdFromDataSourceByIdValue(
   productIdValue
 ) {
   try {
-    // I query one product from products table first because this is main data source.
-    const singleProductDetailsQueryResult =
-      await postgresDatabasePoolConnection.query(
-        `
-          SELECT
-            id,
-            name,
-            description,
-            image_url
-          FROM products
-          WHERE id = $1
-          LIMIT 1
-        `,
-        [productIdValue]
+    const productCatalogRowsFromDatabaseDataSourceListValue =
+      await loadProductCatalogRowsFromDatabaseDataSourceListValue();
+    const foundProductRowFromDatabaseDataSourceObjectValue =
+      productCatalogRowsFromDatabaseDataSourceListValue.find(
+        (databaseProductRowObjectValue) =>
+          Number(
+            resolveProductIdFromDatabaseRowObjectValue(
+              databaseProductRowObjectValue
+            )
+          ) === Number(productIdValue)
       );
 
-    if (singleProductDetailsQueryResult.rowCount > 0) {
+    if (foundProductRowFromDatabaseDataSourceObjectValue) {
       return {
         sourceValue: "database",
         productDetailsPayloadObjectValue: mapDatabaseProductRowToPublicProductPayload(
-          singleProductDetailsQueryResult.rows[0]
+          foundProductRowFromDatabaseDataSourceObjectValue
         )
       };
     }
   } catch (error) {
-    if (error.code !== "42P01") {
-      throw error;
-    }
+    console.error("Single product lookup from database failed:", error);
   }
 
   const fallbackProductFromDevelopmentListValue =
@@ -214,3 +225,43 @@ module.exports = {
   getSingleProductDetailsByIdController,
   getSingleProductDetailsByIdFromDataSourceByIdValue
 };
+
+async function loadProductCatalogRowsFromDatabaseDataSourceListValue() {
+  const productCatalogQueryResult = await postgresDatabasePoolConnection.query(
+    `
+      SELECT *
+      FROM products
+    `
+  );
+
+  return productCatalogQueryResult.rows || [];
+}
+
+function resolveProductIdFromDatabaseRowObjectValue(databaseProductRowObject) {
+  const candidateProductIdValue =
+    databaseProductRowObject.id ??
+    databaseProductRowObject.product_id ??
+    databaseProductRowObject.productid ??
+    null;
+
+  const normalizedProductIdNumberValue = Number(candidateProductIdValue);
+
+  if (
+    Number.isInteger(normalizedProductIdNumberValue) &&
+    normalizedProductIdNumberValue > 0
+  ) {
+    return normalizedProductIdNumberValue;
+  }
+
+  return null;
+}
+
+function parseKnownNumberValueSafely(valueToParseAsNumber) {
+  const normalizedParsedNumberValue = Number(valueToParseAsNumber);
+
+  if (Number.isFinite(normalizedParsedNumberValue)) {
+    return normalizedParsedNumberValue;
+  }
+
+  return null;
+}
