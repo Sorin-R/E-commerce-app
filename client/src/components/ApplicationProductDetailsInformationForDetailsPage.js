@@ -4,7 +4,7 @@ function ApplicationProductDetailsInformationForDetailsPage({
 }) {
   return (
     <article className="ecom-app-product-details-page-main-info-card-box">
-      <div className="ecom-app-prod-det-page-main-info-card-image-25df98">
+      <div className="ecom-app-prod-det-page-main-info-image-wrap-box">
         <img
           className="ecom-app-prod-det-page-main-info-card-image-el"
           src={
@@ -17,27 +17,27 @@ function ApplicationProductDetailsInformationForDetailsPage({
         />
       </div>
 
-      <div className="ecom-app-prod-det-page-main-info-card-conte-8b44dd">
+      <div className="ecom-app-prod-det-page-main-info-content-wrap">
         <h3 className="ecom-app-prod-det-page-main-info-card-title-text">
           {productDetailsPayloadObjectValue.name}
         </h3>
 
-        <p className="ecom-app-prod-det-page-main-info-card-short-3d07a7">
+        <p className="ecom-app-prod-det-page-main-info-short-desc-text">
           {productDetailsPayloadObjectValue.description}
         </p>
 
-        <p className="ecom-app-prod-det-page-main-info-card-det-d-4bd146">
+        <p className="ecom-app-prod-det-page-main-info-detail-desc-text">
           {productDetailsPayloadObjectValue.detailedDescriptionText}
         </p>
 
-        <div className="ecom-app-prod-det-page-main-info-card-meta--5bb8a7">
-          <p className="ecom-app-prod-det-page-main-info-card-meta--d8fbf9">
+        <div className="ecom-app-prod-det-page-main-info-meta-grid-box">
+          <p className="ecom-app-prod-det-page-main-info-meta-text-line">
             Product ID: {productDetailsPayloadObjectValue.id}
           </p>
-          <p className="ecom-app-prod-det-page-main-info-card-meta--d8fbf9">
+          <p className="ecom-app-prod-det-page-main-info-meta-text-line">
             Availability: {productDetailsPayloadObjectValue.availabilityStatusText}
           </p>
-          <p className="ecom-app-prod-det-page-main-info-card-meta--d8fbf9">
+          <p className="ecom-app-prod-det-page-main-info-meta-text-line">
             Price:
             {" "}
             {buildProductDisplayPriceTextValue(productDetailsPayloadObjectValue)}

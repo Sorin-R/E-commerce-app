@@ -19,7 +19,7 @@
   padding: 14px;
 }
 
-.ecom-app-prot-route-sess-valid-load-state-m-506e17 {
+.ecom-app-prot-route-sess-valid-load-msg-text {
   margin: 0;
   color: #334155;
 }
@@ -98,7 +98,7 @@
   opacity: 0.65;
 }
 
-.ecom-app-main-nav-auth-sess-logout-error-ms-d67e1b {
+.ecom-app-main-nav-auth-logout-error-msg-text {
   margin: 0;
   max-width: 260px;
   color: #fda4af;
@@ -269,14 +269,14 @@
   color: #166534;
 }
 
-.ecom-app-user-login-page-third-party-button-41fd3a {
+.ecom-app-user-login-page-third-party-btns-wrap {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
   gap: 10px;
 }
 
-.ecom-app-user-login-page-google-provider-lo-08237a,
-.ecom-app-user-login-page-facebook-provider--fe35e0 {
+.ecom-app-user-login-page-google-provider-btn,
+.ecom-app-user-login-page-facebook-provider-btn {
   border: none;
   border-radius: 8px;
   padding: 11px 14px;
@@ -284,21 +284,21 @@
   cursor: pointer;
 }
 
-.ecom-app-user-login-page-google-provider-lo-08237a {
+.ecom-app-user-login-page-google-provider-btn {
   background-color: #fee2e2;
   color: #7f1d1d;
 }
 
-.ecom-app-user-login-page-google-provider-lo-08237a:hover {
+.ecom-app-user-login-page-google-provider-btn:hover {
   background-color: #fecaca;
 }
 
-.ecom-app-user-login-page-facebook-provider--fe35e0 {
+.ecom-app-user-login-page-facebook-provider-btn {
   background-color: #dbeafe;
   color: #1e3a8a;
 }
 
-.ecom-app-user-login-page-facebook-provider--fe35e0:hover {
+.ecom-app-user-login-page-facebook-provider-btn:hover {
   background-color: #bfdbfe;
 }
 
@@ -382,7 +382,7 @@
   margin-top: auto;
 }
 
-.ecom-app-prod-list-page-prod-card-open-det--06a761 {
+.ecom-app-prod-list-page-card-open-details-link {
   display: inline-flex;
   text-decoration: none;
   border-radius: 8px;
@@ -392,7 +392,7 @@
   font-weight: 600;
 }
 
-.ecom-app-prod-list-page-prod-card-open-det--06a761:hover {
+.ecom-app-prod-list-page-card-open-details-link:hover {
   background-color: #bae6fd;
 }
 
@@ -427,7 +427,7 @@
   color: #9f1239;
 }
 
-.ecom-app-prod-list-page-error-state-retry-r-0a885a {
+.ecom-app-prod-list-page-error-retry-btn-el {
   border: none;
   border-radius: 8px;
   padding: 9px 12px;
@@ -437,7 +437,7 @@
   color: #ffffff;
 }
 
-.ecom-app-prod-list-page-error-state-retry-r-0a885a:hover {
+.ecom-app-prod-list-page-error-retry-btn-el:hover {
   background-color: #881337;
 }
 
@@ -504,7 +504,7 @@
   color: #9f1239;
 }
 
-.ecom-app-prod-det-page-error-state-retry-re-1b6a89 {
+.ecom-app-prod-det-page-error-retry-btn-el {
   border: none;
   border-radius: 8px;
   padding: 9px 12px;
@@ -514,7 +514,7 @@
   color: #ffffff;
 }
 
-.ecom-app-prod-det-page-error-state-retry-re-1b6a89:hover {
+.ecom-app-prod-det-page-error-retry-btn-el:hover {
   background-color: #881337;
 }
 
@@ -533,7 +533,7 @@
   grid-template-columns: minmax(240px, 1fr) minmax(280px, 1.2fr);
 }
 
-.ecom-app-prod-det-page-main-info-card-image-25df98 {
+.ecom-app-prod-det-page-main-info-image-wrap-box {
   width: 100%;
   min-height: 280px;
   background-color: #e2e8f0;
@@ -546,7 +546,7 @@
   display: block;
 }
 
-.ecom-app-prod-det-page-main-info-card-conte-8b44dd {
+.ecom-app-prod-det-page-main-info-content-wrap {
   padding: 16px;
   display: flex;
   flex-direction: column;
@@ -560,13 +560,13 @@
   color: #0f172a;
 }
 
-.ecom-app-prod-det-page-main-info-card-short-3d07a7,
-.ecom-app-prod-det-page-main-info-card-det-d-4bd146 {
+.ecom-app-prod-det-page-main-info-short-desc-text,
+.ecom-app-prod-det-page-main-info-detail-desc-text {
   margin: 0;
   color: #334155;
 }
 
-.ecom-app-prod-det-page-main-info-card-meta--5bb8a7 {
+.ecom-app-prod-det-page-main-info-meta-grid-box {
   margin-top: auto;
   display: grid;
   grid-template-columns: 1fr;
@@ -574,7 +574,7 @@
   padding-top: 8px;
 }
 
-.ecom-app-prod-det-page-main-info-card-meta--d8fbf9 {
+.ecom-app-prod-det-page-main-info-meta-text-line {
   margin: 0;
   color: #0f172a;
   font-size: 14px;
@@ -615,7 +615,7 @@
   opacity: 0.65;
 }
 
-.ecom-app-prod-det-page-add-to-cart-action-m-1ae882 {
+.ecom-app-prod-det-page-add-to-cart-fb-msg-text {
   margin: 0;
   color: #166534;
   font-size: 14px;
@@ -656,7 +656,7 @@
 .ecom-app-check-page-auth-req-state-msg-text-line,
 .ecom-app-checkout-page-loading-state-msg-text-line,
 .ecom-app-checkout-page-empty-state-msg-text-line,
-.ecom-app-ord-hist-page-auth-req-state-msg-t-bcfb58,
+.ecom-app-ord-hist-page-auth-req-msg-text-line,
 .ecom-app-ord-hist-page-load-state-msg-text-line,
 .ecom-app-ord-hist-page-empty-state-msg-text-line {
   margin: 0;
@@ -669,10 +669,10 @@
   color: #9f1239;
 }
 
-.ecom-app-check-page-auth-req-state-goto-log-575435,
-.ecom-app-check-page-empty-state-goto-produc-cc2bb9,
-.ecom-app-ord-hist-page-auth-req-state-goto--ec3d14,
-.ecom-app-ord-hist-page-empty-state-goto-che-f18267 {
+.ecom-app-check-page-auth-req-goto-login-link,
+.ecom-app-check-page-empty-goto-products-link,
+.ecom-app-ord-hist-page-auth-req-goto-login-link,
+.ecom-app-ord-hist-page-empty-goto-checkout-link {
   display: inline-flex;
   text-decoration: none;
   border-radius: 8px;
@@ -683,10 +683,10 @@
   font-weight: 600;
 }
 
-.ecom-app-check-page-auth-req-state-goto-log-575435:hover,
-.ecom-app-check-page-empty-state-goto-produc-cc2bb9:hover,
-.ecom-app-ord-hist-page-auth-req-state-goto--ec3d14:hover,
-.ecom-app-ord-hist-page-empty-state-goto-che-f18267:hover {
+.ecom-app-check-page-auth-req-goto-login-link:hover,
+.ecom-app-check-page-empty-goto-products-link:hover,
+.ecom-app-ord-hist-page-auth-req-goto-login-link:hover,
+.ecom-app-ord-hist-page-empty-goto-checkout-link:hover {
   background-color: #cbd5e1;
 }
 
@@ -725,13 +725,13 @@
   color: #0f172a;
 }
 
-.ecom-app-check-page-actv-cart-item-card-des-102d6b,
-.ecom-app-check-page-actv-cart-item-card-qty-a5921f {
+.ecom-app-check-page-cart-item-desc-text-line,
+.ecom-app-check-page-cart-item-qty-text-line {
   margin: 0;
   color: #334155;
 }
 
-.ecom-app-check-page-actv-cart-item-card-rem-32d064 {
+.ecom-app-check-page-cart-item-remove-btn-el {
   align-self: flex-start;
   border: none;
   border-radius: 8px;
@@ -742,11 +742,11 @@
   color: #7f1d1d;
 }
 
-.ecom-app-check-page-actv-cart-item-card-rem-32d064:hover {
+.ecom-app-check-page-cart-item-remove-btn-el:hover {
   background-color: #fecaca;
 }
 
-.ecom-app-check-page-actv-cart-item-card-rem-32d064:disabled {
+.ecom-app-check-page-cart-item-remove-btn-el:disabled {
   cursor: not-allowed;
   opacity: 0.65;
 }
@@ -762,21 +762,21 @@
   height: fit-content;
 }
 
-.ecom-app-check-page-actv-cart-sum-card-tota-861af3,
-.ecom-app-check-page-actv-cart-sum-card-tota-712d79 {
+.ecom-app-check-page-cart-sum-total-qty-text,
+.ecom-app-check-page-cart-sum-total-price-text {
   margin: 0;
   color: #0f172a;
   font-weight: 600;
 }
 
-.ecom-app-check-page-actv-cart-sum-card-stri-45c368 {
+.ecom-app-check-page-cart-sum-stripe-amount-text {
   margin: 0;
   color: #0f172a;
   font-size: 14px;
   font-weight: 600;
 }
 
-.ecom-app-check-page-actv-cart-sum-card-inte-bde86d {
+.ecom-app-check-page-cart-sum-intent-load-msg {
   margin: 0;
   border: 1px dashed #bfdbfe;
   background-color: #eff6ff;
@@ -786,7 +786,7 @@
   font-size: 14px;
 }
 
-.ecom-app-check-page-actv-cart-sum-card-inte-48c738 {
+.ecom-app-check-page-cart-sum-intent-error-msg {
   margin: 0;
   border: 1px solid #fecaca;
   background-color: #fff1f2;
@@ -796,7 +796,7 @@
   font-size: 14px;
 }
 
-.ecom-app-check-page-actv-cart-sum-card-comp-057f2b {
+.ecom-app-check-page-cart-sum-complete-btn-el {
   border: none;
   border-radius: 8px;
   padding: 11px 14px;
@@ -806,17 +806,17 @@
   color: #f8fafc;
 }
 
-.ecom-app-check-page-actv-cart-sum-card-comp-057f2b:hover {
+.ecom-app-check-page-cart-sum-complete-btn-el:hover {
   background-color: #1e293b;
 }
 
-.ecom-app-check-page-actv-cart-sum-card-comp-057f2b:disabled {
+.ecom-app-check-page-cart-sum-complete-btn-el:disabled {
   cursor: not-allowed;
   opacity: 0.65;
 }
 
-.ecom-app-check-page-remove-item-action-fb-m-a58eff,
-.ecom-app-check-page-complete-ord-action-fb--e93a55 {
+.ecom-app-check-page-remove-item-fb-msg-text,
+.ecom-app-check-page-complete-order-fb-msg-text {
   margin: 0;
   border: 1px solid #bbf7d0;
   background-color: #f0fdf4;
@@ -825,7 +825,7 @@
   color: #166534;
 }
 
-.ecom-app-check-page-stripe-payment-flow-fb--99375d {
+.ecom-app-check-page-stripe-flow-fb-msg-text {
   margin: 0;
   border: 1px solid #fecaca;
   background-color: #fff1f2;
@@ -851,7 +851,7 @@
   font-weight: 600;
 }
 
-.ecom-app-check-page-paid-ord-fb-open-orders-92cd2e {
+.ecom-app-check-page-paid-order-open-hist-link {
   display: inline-flex;
   text-decoration: none;
   border-radius: 8px;
@@ -862,7 +862,7 @@
   font-weight: 600;
 }
 
-.ecom-app-check-page-paid-ord-fb-open-orders-92cd2e:hover {
+.ecom-app-check-page-paid-order-open-hist-link:hover {
   background-color: #bbf7d0;
 }
 
@@ -876,14 +876,14 @@
   gap: 10px;
 }
 
-.ecom-app-check-page-stripe-payment-form-pay-ab48f7 {
+.ecom-app-check-page-stripe-form-pay-wrap-box {
   border: 1px solid #e2e8f0;
   border-radius: 8px;
   background-color: #ffffff;
   padding: 10px;
 }
 
-.ecom-app-check-page-stripe-payment-form-sub-cc1eda {
+.ecom-app-check-page-stripe-form-submit-btn-el {
   border: none;
   border-radius: 8px;
   padding: 11px 14px;
@@ -893,16 +893,16 @@
   color: #f8fafc;
 }
 
-.ecom-app-check-page-stripe-payment-form-sub-cc1eda:hover {
+.ecom-app-check-page-stripe-form-submit-btn-el:hover {
   background-color: #1e293b;
 }
 
-.ecom-app-check-page-stripe-payment-form-sub-cc1eda:disabled {
+.ecom-app-check-page-stripe-form-submit-btn-el:disabled {
   cursor: not-allowed;
   opacity: 0.65;
 }
 
-.ecom-app-ord-hist-page-error-state-retry-re-877135 {
+.ecom-app-ord-hist-page-error-retry-btn-el {
   border: none;
   border-radius: 8px;
   padding: 9px 12px;
@@ -912,7 +912,7 @@
   color: #ffffff;
 }
 
-.ecom-app-ord-hist-page-error-state-retry-re-877135:hover {
+.ecom-app-ord-hist-page-error-retry-btn-el:hover {
   background-color: #881337;
 }
 
@@ -921,7 +921,7 @@
   justify-content: flex-end;
 }
 
-.ecom-app-ord-hist-page-top-act-refresh-ord--51beea {
+.ecom-app-ord-hist-page-top-actions-refresh-btn {
   border: none;
   border-radius: 8px;
   padding: 10px 13px;
@@ -931,11 +931,11 @@
   color: #f8fafc;
 }
 
-.ecom-app-ord-hist-page-top-act-refresh-ord--51beea:hover {
+.ecom-app-ord-hist-page-top-actions-refresh-btn:hover {
   background-color: #1e293b;
 }
 
-.ecom-app-ord-hist-page-top-act-refresh-ord--51beea:disabled {
+.ecom-app-ord-hist-page-top-actions-refresh-btn:disabled {
   cursor: not-allowed;
   opacity: 0.65;
 }
@@ -963,13 +963,13 @@
   gap: 7px;
 }
 
-.ecom-app-ord-hist-page-ord-card-tracking-id-6e69c2 {
+.ecom-app-ord-hist-page-card-tracking-text {
   margin: 0;
   color: #0f172a;
   font-size: 18px;
 }
 
-.ecom-app-ord-hist-page-ord-card-stat-badge--fa8cb0 {
+.ecom-app-ord-hist-page-card-status-base {
   margin: 0;
   border-radius: 999px;
   padding: 4px 10px;
@@ -978,31 +978,31 @@
   width: fit-content;
 }
 
-.ecom-app-ord-hist-page-ord-card-stat-badge--4ef4aa {
+.ecom-app-ord-hist-page-card-status-paid {
   background-color: #dcfce7;
   color: #14532d;
 }
 
-.ecom-app-ord-hist-page-ord-card-stat-badge--bc2f11 {
+.ecom-app-ord-hist-page-card-status-done {
   background-color: #dbeafe;
   color: #1e3a8a;
 }
 
-.ecom-app-ord-hist-page-ord-card-stat-badge--149665 {
+.ecom-app-ord-hist-page-card-status-unknown {
   background-color: #e2e8f0;
   color: #334155;
 }
 
-.ecom-app-ord-hist-page-ord-card-created-dat-73d7b9,
-.ecom-app-ord-hist-page-ord-card-total-qty-t-23c883,
-.ecom-app-ord-hist-page-ord-card-total-known-566635,
-.ecom-app-ord-hist-page-ord-card-payment-det-ee1dd5,
-.ecom-app-ord-hist-page-ord-card-payment-det-93e850 {
+.ecom-app-ord-hist-page-card-created-date-text,
+.ecom-app-ord-hist-page-card-total-qty-text,
+.ecom-app-ord-hist-page-card-total-price-text,
+.ecom-app-ord-hist-page-card-payment-provider-text,
+.ecom-app-ord-hist-page-card-payment-txn-text {
   margin: 0;
   color: #334155;
 }
 
-.ecom-app-ord-hist-page-ord-card-payment-det-f6ae37 {
+.ecom-app-ord-hist-page-card-payment-wrap-box {
   border: 1px solid #dbeafe;
   background-color: #eff6ff;
   border-radius: 8px;
@@ -1021,7 +1021,7 @@
   gap: 8px;
 }
 
-.ecom-app-ord-hist-page-ord-card-items-list--c15796 {
+.ecom-app-ord-hist-page-card-item-wrap-box {
   border: 1px solid #e2e8f0;
   border-radius: 8px;
   padding: 9px 10px;
@@ -1031,11 +1031,11 @@
   gap: 4px;
 }
 
-.ecom-app-ord-hist-page-ord-card-item-name-t-931bc8,
-.ecom-app-ord-hist-page-ord-card-item-desc-t-e994fd,
+.ecom-app-ord-hist-page-card-item-name-text,
+.ecom-app-ord-hist-page-card-item-desc-text,
 .ecom-app-ord-hist-page-ord-card-item-qty-text-line,
-.ecom-app-ord-hist-page-ord-card-item-unit-p-beb5c2,
-.ecom-app-ord-hist-page-ord-card-item-total--2b8612 {
+.ecom-app-ord-hist-page-card-item-unit-price-text,
+.ecom-app-ord-hist-page-card-item-total-text {
   margin: 0;
   color: #334155;
 }

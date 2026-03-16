@@ -80,12 +80,12 @@ function ApplicationCheckoutStripePaymentForm({
       className="ecom-app-check-page-stripe-payment-form-wrap-box"
       onSubmit={handleCheckoutStripePaymentFormSubmitAction}
     >
-      <div className="ecom-app-check-page-stripe-payment-form-pay-ab48f7">
+      <div className="ecom-app-check-page-stripe-form-pay-wrap-box">
         <PaymentElement />
       </div>
 
       <button
-        className="ecom-app-check-page-stripe-payment-form-sub-cc1eda"
+        className="ecom-app-check-page-stripe-form-submit-btn-el"
         type="submit"
         disabled={
           !stripeObjectValue ||

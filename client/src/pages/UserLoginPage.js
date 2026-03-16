@@ -174,16 +174,16 @@ function UserLoginPage() {
             : "Login with Username"}
         </button>
 
-        <div className="ecom-app-user-login-page-third-party-button-41fd3a">
+        <div className="ecom-app-user-login-page-third-party-btns-wrap">
           <button
-            className="ecom-app-user-login-page-google-provider-lo-08237a"
+            className="ecom-app-user-login-page-google-provider-btn"
             type="button"
             onClick={() => handleThirdPartyProviderLoginClick("google")}
           >
             Continue with Google
           </button>
           <button
-            className="ecom-app-user-login-page-facebook-provider--fe35e0"
+            className="ecom-app-user-login-page-facebook-provider-btn"
             type="button"
             onClick={() => handleThirdPartyProviderLoginClick("facebook")}
           >

@@ -53,7 +53,7 @@ function ProductListingPage() {
             {productCatalogRequestErrorMessageState}
           </p>
           <button
-            className="ecom-app-prod-list-page-error-state-retry-r-0a885a"
+            className="ecom-app-prod-list-page-error-retry-btn-el"
             type="button"
             onClick={loadProductCatalogListFromBackendAction}
           >

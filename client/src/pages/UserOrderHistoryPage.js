@@ -74,7 +74,7 @@ function UserOrderHistoryPage() {
     >
       <div className="ecom-app-order-history-page-top-actions-wrap-box">
         <button
-          className="ecom-app-ord-hist-page-top-act-refresh-ord--51beea"
+          className="ecom-app-ord-hist-page-top-actions-refresh-btn"
           type="button"
           onClick={loadPastCompletedOrderHistoryFromBackendAction}
           disabled={isOrderHistoryRequestLoadingState}
@@ -87,11 +87,11 @@ function UserOrderHistoryPage() {
 
       {!isAuthenticatedSessionActiveStateValue ? (
         <div className="ecom-app-ord-hist-page-auth-req-state-wrap-box">
-          <p className="ecom-app-ord-hist-page-auth-req-state-msg-t-bcfb58">
+          <p className="ecom-app-ord-hist-page-auth-req-msg-text-line">
             Please login first to see order history.
           </p>
           <Link
-            className="ecom-app-ord-hist-page-auth-req-state-goto--ec3d14"
+            className="ecom-app-ord-hist-page-auth-req-goto-login-link"
             to="/login"
           >
             Go to Login
@@ -116,7 +116,7 @@ function UserOrderHistoryPage() {
             {orderHistoryRequestErrorMessageState}
           </p>
           <button
-            className="ecom-app-ord-hist-page-error-state-retry-re-877135"
+            className="ecom-app-ord-hist-page-error-retry-btn-el"
             type="button"
             onClick={loadPastCompletedOrderHistoryFromBackendAction}
           >
@@ -134,7 +134,7 @@ function UserOrderHistoryPage() {
             You do not have past completed orders now.
           </p>
           <Link
-            className="ecom-app-ord-hist-page-empty-state-goto-che-f18267"
+            className="ecom-app-ord-hist-page-empty-goto-checkout-link"
             to="/checkout"
           >
             Open Checkout
@@ -161,7 +161,7 @@ function UserOrderHistoryPage() {
                   }
                 >
                   <article className="ecom-app-order-history-page-order-card-box">
-                    <h3 className="ecom-app-ord-hist-page-ord-card-tracking-id-6e69c2">
+                    <h3 className="ecom-app-ord-hist-page-card-tracking-text">
                       Order ID:
                       {" "}
                       {
@@ -180,20 +180,20 @@ function UserOrderHistoryPage() {
                         completedOrderHistoryGroupObjectValue.completedOrderStatusTextValue
                       }
                     </p>
-                    <p className="ecom-app-ord-hist-page-ord-card-created-dat-73d7b9">
+                    <p className="ecom-app-ord-hist-page-card-created-date-text">
                       Created At:
                       {" "}
                       {new Date(
                         completedOrderHistoryGroupObjectValue.completedOrderCreatedAtIsoDateTextValue
                       ).toLocaleString()}
                     </p>
-                    <p className="ecom-app-ord-hist-page-ord-card-total-qty-t-23c883">
+                    <p className="ecom-app-ord-hist-page-card-total-qty-text">
                       Total Purchased Items:
                       {" "}
                       {completedOrderHistoryGroupObjectValue.completedOrderTotalQuantityValue ||
                         0}
                     </p>
-                    <p className="ecom-app-ord-hist-page-ord-card-total-known-566635">
+                    <p className="ecom-app-ord-hist-page-card-total-price-text">
                       Total Known Price:
                       {" "}
                       {formatOrderCurrencyAmountTextValue({
@@ -206,13 +206,13 @@ function UserOrderHistoryPage() {
 
                     {completedOrderHistoryGroupObjectValue
                       .completedOrderPaymentDetailsObjectValue ? (
-                        <div className="ecom-app-ord-hist-page-ord-card-payment-det-f6ae37">
-                          <p className="ecom-app-ord-hist-page-ord-card-payment-det-ee1dd5">
+                        <div className="ecom-app-ord-hist-page-card-payment-wrap-box">
+                          <p className="ecom-app-ord-hist-page-card-payment-provider-text">
                             Payment Provider:
                             {" "}
                             {completedOrderHistoryGroupObjectValue.completedOrderPaymentDetailsObjectValue.paymentProviderNameValue}
                           </p>
-                          <p className="ecom-app-ord-hist-page-ord-card-payment-det-93e850">
+                          <p className="ecom-app-ord-hist-page-card-payment-txn-text">
                             Transaction ID:
                             {" "}
                             {completedOrderHistoryGroupObjectValue.completedOrderPaymentDetailsObjectValue.stripePaymentIntentIdValue}
@@ -238,13 +238,13 @@ function UserOrderHistoryPage() {
 
                         return (
                           <li
-                            className="ecom-app-ord-hist-page-ord-card-items-list--c15796"
+                            className="ecom-app-ord-hist-page-card-item-wrap-box"
                             key={`${completedOrderHistoryGroupObjectValue.completedOrderTrackingIdValue}_${completedOrderItemObjectValue.productIdValue}`}
                           >
-                            <p className="ecom-app-ord-hist-page-ord-card-item-name-t-931bc8">
+                            <p className="ecom-app-ord-hist-page-card-item-name-text">
                               {completedOrderItemObjectValue.productNameValue}
                             </p>
-                            <p className="ecom-app-ord-hist-page-ord-card-item-desc-t-e994fd">
+                            <p className="ecom-app-ord-hist-page-card-item-desc-text">
                               {completedOrderItemObjectValue.productDescriptionValue ||
                                 "No item description available for this purchased product."}
                             </p>
@@ -253,7 +253,7 @@ function UserOrderHistoryPage() {
                               {" "}
                               {orderItemQuantityValue}
                             </p>
-                            <p className="ecom-app-ord-hist-page-ord-card-item-unit-p-beb5c2">
+                            <p className="ecom-app-ord-hist-page-card-item-unit-price-text">
                               Unit Price:
                               {" "}
                               {formatOrderCurrencyAmountTextValue({
@@ -261,7 +261,7 @@ function UserOrderHistoryPage() {
                                 currencyCodeTextValue: orderCurrencyCodeValue
                               })}
                             </p>
-                            <p className="ecom-app-ord-hist-page-ord-card-item-total--2b8612">
+                            <p className="ecom-app-ord-hist-page-card-item-total-text">
                               Item Total:
                               {" "}
                               {formatOrderCurrencyAmountTextValue({
@@ -328,12 +328,12 @@ function buildOrderStatusBadgeClassNameTextValue(completedOrderStatusTextValue) 
     .trim();
 
   if (normalizedCompletedOrderStatusTextValue === "PAID") {
-    return "ecom-app-ord-hist-page-ord-card-stat-badge--fa8cb0 ecom-app-ord-hist-page-ord-card-stat-badge--4ef4aa";
+    return "ecom-app-ord-hist-page-card-status-base ecom-app-ord-hist-page-card-status-paid";
   }
 
   if (normalizedCompletedOrderStatusTextValue === "COMPLETED") {
-    return "ecom-app-ord-hist-page-ord-card-stat-badge--fa8cb0 ecom-app-ord-hist-page-ord-card-stat-badge--bc2f11";
+    return "ecom-app-ord-hist-page-card-status-base ecom-app-ord-hist-page-card-status-done";
   }
 
-  return "ecom-app-ord-hist-page-ord-card-stat-badge--fa8cb0 ecom-app-ord-hist-page-ord-card-stat-badge--149665";
+  return "ecom-app-ord-hist-page-card-status-base ecom-app-ord-hist-page-card-status-unknown";
 }

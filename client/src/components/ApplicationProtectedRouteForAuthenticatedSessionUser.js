@@ -12,7 +12,7 @@ function ApplicationProtectedRouteForAuthenticatedSessionUser() {
   if (isAuthenticatedSessionStatusLoadingState) {
     return (
       <div className="ecom-app-prot-route-sess-valid-load-state-wrap-box">
-        <p className="ecom-app-prot-route-sess-valid-load-state-m-506e17">
+        <p className="ecom-app-prot-route-sess-valid-load-msg-text">
           Checking authentication session before opening protected page...
         </p>
       </div>

@@ -98,7 +98,7 @@ function ApplicationMainNavigationBar() {
                 : "Logout"}
             </button>
             {navigationBarLogoutRequestErrorMessageState ? (
-              <p className="ecom-app-main-nav-auth-sess-logout-error-ms-d67e1b">
+              <p className="ecom-app-main-nav-auth-logout-error-msg-text">
                 {navigationBarLogoutRequestErrorMessageState}
               </p>
             ) : null}

@@ -32,7 +32,7 @@ function ApplicationProductCardForListingPage({
 
       <div className="ecom-app-prod-list-page-prod-card-act-wrap-box">
         <Link
-          className="ecom-app-prod-list-page-prod-card-open-det--06a761"
+          className="ecom-app-prod-list-page-card-open-details-link"
           to={`/products/${productIdValue}`}
         >
           Open Product Details

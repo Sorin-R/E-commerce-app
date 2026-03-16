@@ -123,7 +123,7 @@ function ProductDetailsPage() {
             {productDetailsRequestErrorMessageState}
           </p>
           <button
-            className="ecom-app-prod-det-page-error-state-retry-re-1b6a89"
+            className="ecom-app-prod-det-page-error-retry-btn-el"
             type="button"
             onClick={loadSingleProductDetailsFromBackendAction}
           >
@@ -153,7 +153,7 @@ function ProductDetailsPage() {
             </button>
 
             {addProductToCartActionMessageState ? (
-              <p className="ecom-app-prod-det-page-add-to-cart-action-m-1ae882">
+              <p className="ecom-app-prod-det-page-add-to-cart-fb-msg-text">
                 {addProductToCartActionMessageState}
               </p>
             ) : null}
