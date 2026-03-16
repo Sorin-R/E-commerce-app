@@ -32,24 +32,18 @@ function configurePassportSessionSerializationHandlers() {
 
   passport.deserializeUser(async (authenticatedUserIdValue, done) => {
     try {
-      const authenticatedUserSearchQueryResult =
-        await postgresDatabasePoolConnection.query(
-          `
-            SELECT id, username, auth_provider, email_address
-            FROM users
-            WHERE id = $1
-            LIMIT 1
-          `,
-          [authenticatedUserIdValue]
-        );
+      const foundAuthenticatedUserRecordData =
+        await findOneUserRecordBySessionIdFromDatabase({
+          authenticatedUserIdValue
+        });
 
-      if (authenticatedUserSearchQueryResult.rowCount === 0) {
+      if (!foundAuthenticatedUserRecordData) {
         return done(null, false);
       }
 
       const authenticatedUserSessionPayloadObject =
         mapDatabaseUserRowToAuthenticatedUserSessionPayload(
-          authenticatedUserSearchQueryResult.rows[0]
+          foundAuthenticatedUserRecordData
         );
 
       return done(null, authenticatedUserSessionPayloadObject);
@@ -312,11 +306,56 @@ function mapDatabaseUserRowToAuthenticatedUserSessionPayload(
   databaseUserRowPayloadObjectValue
 ) {
   return {
-    id: databaseUserRowPayloadObjectValue.id,
-    username: databaseUserRowPayloadObjectValue.username,
-    authProvider: databaseUserRowPayloadObjectValue.auth_provider || "local",
-    emailAddress: databaseUserRowPayloadObjectValue.email_address || null
+    id:
+      databaseUserRowPayloadObjectValue.id ??
+      databaseUserRowPayloadObjectValue.user_id,
+    username:
+      databaseUserRowPayloadObjectValue.username ||
+      databaseUserRowPayloadObjectValue.user_name ||
+      "unknown_user",
+    authProvider:
+      databaseUserRowPayloadObjectValue.auth_provider ||
+      databaseUserRowPayloadObjectValue.authprovider ||
+      "local",
+    emailAddress:
+      databaseUserRowPayloadObjectValue.email_address ||
+      databaseUserRowPayloadObjectValue.email ||
+      null
   };
+}
+
+async function findOneUserRecordBySessionIdFromDatabase({
+  authenticatedUserIdValue
+}) {
+  const supportedUserIdColumnNameListValue = ["id", "user_id"];
+
+  for (const userIdColumnNameValue of supportedUserIdColumnNameListValue) {
+    try {
+      const authenticatedUserSearchQueryResult =
+        await postgresDatabasePoolConnection.query(
+          `
+            SELECT *
+            FROM users
+            WHERE ${userIdColumnNameValue} = $1
+            LIMIT 1
+          `,
+          [authenticatedUserIdValue]
+        );
+
+      if (authenticatedUserSearchQueryResult.rowCount > 0) {
+        return authenticatedUserSearchQueryResult.rows[0];
+      }
+    } catch (error) {
+      // I skip unsupported user id column and try another common naming style.
+      if (error.code === "42703") {
+        continue;
+      }
+
+      throw error;
+    }
+  }
+
+  return null;
 }
 
 module.exports = {

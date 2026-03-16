@@ -12,57 +12,77 @@ const {
 async function loginUserWithUsernameAndPasswordController(request, response) {
   // I read login input from request body sent by frontend.
   const { username, password } = request.body;
+  const normalizedUsernameTextValue = String(username || "").trim();
+  const normalizedPasswordTextValue = String(password || "");
 
-  if (!username || !password) {
+  if (!normalizedUsernameTextValue || !normalizedPasswordTextValue) {
     return response.status(400).json({
       message: "Username and password are required."
     });
   }
 
   try {
-    // I search one user by username to get stored password hash from database.
-    const userSearchQueryResult = await postgresDatabasePoolConnection.query(
-      `
-        SELECT id, username, password_hash
-        FROM users
-        WHERE username = $1
-        LIMIT 1
-      `,
-      [username]
-    );
+    const foundUserRecordData =
+      await findOneUserRecordForLocalLoginByUsernameFromDatabase({
+        usernameTextValue: normalizedUsernameTextValue
+      });
 
-    if (userSearchQueryResult.rowCount === 0) {
+    if (!foundUserRecordData) {
       return response.status(401).json({
         message: "Invalid username or password."
       });
     }
 
-    const foundUserRecordData = userSearchQueryResult.rows[0];
+    const resolvedStoredPasswordCredentialTextValue =
+      resolvePasswordCredentialTextValueFromDatabaseUserRowPayloadObjectValue(
+        foundUserRecordData
+      );
 
-    if (!foundUserRecordData.password_hash) {
+    if (!resolvedStoredPasswordCredentialTextValue) {
       return response.status(401).json({
         message:
           "This account use third-party login. Please login with Google or Facebook button."
       });
     }
 
-    // Important: we do not hash manually here, bcrypt.compare do secure check with salt.
-    const isPasswordMatchingStoredHashResult = await bcrypt.compare(
-      password,
-      foundUserRecordData.password_hash
-    );
+    // I support bcrypt hash and also plain text credential for legacy seeded data.
+    const isPasswordMatchingStoredCredentialResult =
+      await compareLoginPasswordWithStoredCredentialTextValue({
+        plainPasswordTextValue: normalizedPasswordTextValue,
+        storedCredentialTextValue: resolvedStoredPasswordCredentialTextValue
+      });
 
-    if (!isPasswordMatchingStoredHashResult) {
+    if (!isPasswordMatchingStoredCredentialResult) {
       return response.status(401).json({
         message: "Invalid username or password."
       });
     }
 
+    const resolvedUserIdValue =
+      resolveUserIdValueFromDatabaseUserRowPayloadObjectValue(
+        foundUserRecordData
+      );
+
+    if (!resolvedUserIdValue) {
+      throw new Error(
+        "Authenticated user id value is missing in users table row."
+      );
+    }
+
     const authenticatedUserSessionPayloadObject = {
-      id: foundUserRecordData.id,
-      username: foundUserRecordData.username,
-      authProvider: "local",
-      emailAddress: null
+      id: resolvedUserIdValue,
+      username:
+        resolveUsernameTextValueFromDatabaseUserRowPayloadObjectValue(
+          foundUserRecordData
+        ),
+      authProvider:
+        resolveAuthProviderTextValueFromDatabaseUserRowPayloadObjectValue(
+          foundUserRecordData
+        ),
+      emailAddress:
+        resolveEmailAddressTextValueFromDatabaseUserRowPayloadObjectValue(
+          foundUserRecordData
+        )
     };
 
     // I create fresh session id before login save, this is better for security.
@@ -84,6 +104,12 @@ async function loginUserWithUsernameAndPasswordController(request, response) {
     });
   } catch (error) {
     console.error("Login endpoint error:", error);
+
+    if (error.code === "42P01") {
+      return response.status(500).json({
+        message: "Users table is missing in database."
+      });
+    }
 
     return response.status(500).json({
       message: "Server error when trying login."
@@ -187,6 +213,123 @@ function getAuthenticatedSessionStatusController(request, response) {
     isAuthenticatedSessionActive: Boolean(authenticatedSessionUserPayloadObject),
     user: authenticatedSessionUserPayloadObject
   });
+}
+
+async function findOneUserRecordForLocalLoginByUsernameFromDatabase({
+  usernameTextValue
+}) {
+  const supportedUsernameColumnNameListValue = ["username", "user_name"];
+
+  for (const usernameColumnNameValue of supportedUsernameColumnNameListValue) {
+    try {
+      const userSearchQueryResult = await postgresDatabasePoolConnection.query(
+        `
+          SELECT *
+          FROM users
+          WHERE LOWER(${usernameColumnNameValue}) = LOWER($1)
+          LIMIT 1
+        `,
+        [usernameTextValue]
+      );
+
+      if (userSearchQueryResult.rowCount > 0) {
+        return userSearchQueryResult.rows[0];
+      }
+    } catch (error) {
+      // I skip unsupported username column and continue with next possible column name.
+      if (error.code === "42703") {
+        continue;
+      }
+
+      throw error;
+    }
+  }
+
+  return null;
+}
+
+function resolvePasswordCredentialTextValueFromDatabaseUserRowPayloadObjectValue(
+  databaseUserRowPayloadObjectValue
+) {
+  const resolvedPasswordCredentialTextValue =
+    databaseUserRowPayloadObjectValue.password_hash ||
+    databaseUserRowPayloadObjectValue.password ||
+    databaseUserRowPayloadObjectValue.hashed_password ||
+    databaseUserRowPayloadObjectValue.passwordhash ||
+    null;
+
+  return resolvedPasswordCredentialTextValue
+    ? String(resolvedPasswordCredentialTextValue)
+    : null;
+}
+
+async function compareLoginPasswordWithStoredCredentialTextValue({
+  plainPasswordTextValue,
+  storedCredentialTextValue
+}) {
+  if (checkIfStoredCredentialLooksLikeBcryptHash(storedCredentialTextValue)) {
+    return bcrypt.compare(plainPasswordTextValue, storedCredentialTextValue);
+  }
+
+  return String(plainPasswordTextValue) === String(storedCredentialTextValue);
+}
+
+function checkIfStoredCredentialLooksLikeBcryptHash(storedCredentialTextValue) {
+  return /^\$2[aby]\$\d{2}\$/.test(String(storedCredentialTextValue || ""));
+}
+
+function resolveUserIdValueFromDatabaseUserRowPayloadObjectValue(
+  databaseUserRowPayloadObjectValue
+) {
+  const candidateUserIdValue =
+    databaseUserRowPayloadObjectValue.id ??
+    databaseUserRowPayloadObjectValue.user_id ??
+    null;
+
+  if (candidateUserIdValue === null || candidateUserIdValue === undefined) {
+    return null;
+  }
+
+  const normalizedUserIdAsNumberValue = Number(candidateUserIdValue);
+
+  if (
+    Number.isInteger(normalizedUserIdAsNumberValue) &&
+    normalizedUserIdAsNumberValue > 0
+  ) {
+    return normalizedUserIdAsNumberValue;
+  }
+
+  return String(candidateUserIdValue).trim() || null;
+}
+
+function resolveUsernameTextValueFromDatabaseUserRowPayloadObjectValue(
+  databaseUserRowPayloadObjectValue
+) {
+  return (
+    databaseUserRowPayloadObjectValue.username ||
+    databaseUserRowPayloadObjectValue.user_name ||
+    "unknown_user"
+  );
+}
+
+function resolveAuthProviderTextValueFromDatabaseUserRowPayloadObjectValue(
+  databaseUserRowPayloadObjectValue
+) {
+  return (
+    databaseUserRowPayloadObjectValue.auth_provider ||
+    databaseUserRowPayloadObjectValue.authprovider ||
+    "local"
+  );
+}
+
+function resolveEmailAddressTextValueFromDatabaseUserRowPayloadObjectValue(
+  databaseUserRowPayloadObjectValue
+) {
+  return (
+    databaseUserRowPayloadObjectValue.email_address ||
+    databaseUserRowPayloadObjectValue.email ||
+    null
+  );
 }
 
 async function logoutAuthenticatedSessionUserController(request, response) {
