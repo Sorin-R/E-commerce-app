@@ -1,5 +1,7 @@
+import { getFrontendApplicationBackendApiBaseUrlTextValue } from "./applicationBackendBaseUrlSupportService";
+
 const frontendApplicationApiBaseUrlValue =
-  process.env.REACT_APP_BACKEND_BASE_URL || "http://localhost:3001";
+  getFrontendApplicationBackendApiBaseUrlTextValue();
 
 export async function createStripePaymentIntentForCurrentActiveCartRequest() {
   // I call backend endpoint to create stripe payment intent from trusted cart total.

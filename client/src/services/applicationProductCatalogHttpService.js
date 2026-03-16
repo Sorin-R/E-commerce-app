@@ -1,5 +1,7 @@
+import { getFrontendApplicationBackendApiBaseUrlTextValue } from "./applicationBackendBaseUrlSupportService";
+
 const frontendApplicationApiBaseUrlValue =
-  process.env.REACT_APP_BACKEND_BASE_URL || "http://localhost:3001";
+  getFrontendApplicationBackendApiBaseUrlTextValue();
 
 export async function fetchProductCatalogListRequest() {
   // I call backend products endpoint and get list data for listing page.

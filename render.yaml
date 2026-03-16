@@ -20,9 +20,11 @@ services:
       - key: SESSION_COOKIE_SECURE
         value: "true"
       - key: FRONTEND_APPLICATION_URL
-        sync: false
+        value: https://ecommerce-client-application-frontend.onrender.com
       - key: BACKEND_APPLICATION_URL
-        sync: false
+        value: https://ecommerce-application-backend-api.onrender.com
+      - key: RENDER_FRONTEND_APPLICATION_FALLBACK_URL
+        value: https://ecommerce-client-application-frontend.onrender.com
       - key: DATABASE_URL
         sync: false
       - key: STRIPE_SECRET_KEY
@@ -52,6 +54,6 @@ services:
         destination: /index.html
     envVars:
       - key: REACT_APP_BACKEND_BASE_URL
-        sync: false
+        value: https://ecommerce-application-backend-api.onrender.com
       - key: REACT_APP_STRIPE_PUBLISHABLE_KEY
         sync: false

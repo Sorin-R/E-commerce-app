@@ -1,5 +1,7 @@
+import { getFrontendApplicationBackendApiBaseUrlTextValue } from "./applicationBackendBaseUrlSupportService";
+
 const frontendApplicationApiBaseUrlValue =
-  process.env.REACT_APP_BACKEND_BASE_URL || "http://localhost:3001";
+  getFrontendApplicationBackendApiBaseUrlTextValue();
 
 export async function getCurrentActiveCartItemsRequest() {
   // I load current active cart from backend session store for logged user.

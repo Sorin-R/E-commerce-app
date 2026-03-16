@@ -17,13 +17,16 @@ const backendApplicationServer = express();
 const backendApplicationServerPortValue = process.env.PORT || 3001;
 const frontendApplicationUrlListTextValue =
   process.env.FRONTEND_APPLICATION_URL || "";
+const frontendApplicationRenderFallbackUrlTextValue =
+  normalizeCorsOriginTextValue(
+    process.env.RENDER_FRONTEND_APPLICATION_FALLBACK_URL ||
+      "https://ecommerce-client-application-frontend.onrender.com"
+  );
 const allowedFrontendCorsOriginTextListValue =
-  frontendApplicationUrlListTextValue
-    .split(",")
-    .map((allowedFrontendCorsOriginTextValue) =>
-      normalizeCorsOriginTextValue(allowedFrontendCorsOriginTextValue)
-    )
-    .filter(Boolean);
+  buildAllowedFrontendCorsOriginTextListValue({
+    frontendApplicationUrlListTextValue,
+    frontendApplicationRenderFallbackUrlTextValue
+  });
 const sessionCookieNameValue =
   process.env.SESSION_COOKIE_NAME ||
   "ecommerce_application_session_id_cookie_value";
@@ -158,4 +161,25 @@ function normalizeCorsOriginTextValue(corsOriginTextValue) {
   } catch {
     return normalizedCorsOriginTextValue.toLowerCase().trim();
   }
+}
+
+function buildAllowedFrontendCorsOriginTextListValue({
+  frontendApplicationUrlListTextValue,
+  frontendApplicationRenderFallbackUrlTextValue
+}) {
+  const configuredFrontendCorsOriginTextListValue =
+    frontendApplicationUrlListTextValue
+      .split(",")
+      .map((allowedFrontendCorsOriginTextValue) =>
+        normalizeCorsOriginTextValue(allowedFrontendCorsOriginTextValue)
+      )
+      .filter(Boolean);
+
+  // I append one Render fallback origin so common deploy typo still can work.
+  const mergedFrontendCorsOriginTextListValue = [
+    ...configuredFrontendCorsOriginTextListValue,
+    frontendApplicationRenderFallbackUrlTextValue
+  ].filter(Boolean);
+
+  return [...new Set(mergedFrontendCorsOriginTextListValue)];
 }
