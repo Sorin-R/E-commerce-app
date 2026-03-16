@@ -27,14 +27,23 @@ function calculateCurrentActiveCartSummaryObjectValue(currentActiveCartItemsList
   const currentActiveCartKnownTotalPriceAmountValue =
     currentActiveCartItemsListValue.reduce(
       (runningKnownTotalPriceAmountValue, currentActiveCartItemObjectValue) => {
+        const normalizedCurrentActiveCartItemUnitPriceAmountValue = Number(
+          currentActiveCartItemObjectValue.productUnitPriceAmountValue
+        );
+        const normalizedCurrentActiveCartItemQuantityValue = Number(
+          currentActiveCartItemObjectValue.quantityValue || 0
+        );
+
         if (
-          typeof currentActiveCartItemObjectValue.productUnitPriceAmountValue ===
-          "number"
+          Number.isFinite(normalizedCurrentActiveCartItemUnitPriceAmountValue) &&
+          normalizedCurrentActiveCartItemUnitPriceAmountValue > 0 &&
+          Number.isFinite(normalizedCurrentActiveCartItemQuantityValue) &&
+          normalizedCurrentActiveCartItemQuantityValue > 0
         ) {
           return (
             runningKnownTotalPriceAmountValue +
-            currentActiveCartItemObjectValue.productUnitPriceAmountValue *
-              Number(currentActiveCartItemObjectValue.quantityValue || 0)
+            normalizedCurrentActiveCartItemUnitPriceAmountValue *
+              normalizedCurrentActiveCartItemQuantityValue
           );
         }
 

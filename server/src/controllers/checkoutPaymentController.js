@@ -1,5 +1,8 @@
 const Stripe = require("stripe");
 const {
+  getSingleProductDetailsByIdFromDataSourceByIdValue
+} = require("./productCatalogController");
+const {
   getOrCreateShoppingCartSessionTrackingStateObjectValue,
   calculateCurrentActiveCartSummaryObjectValue,
   buildCurrentActiveCartResponsePayloadObjectValue,
@@ -17,6 +20,11 @@ async function createStripePaymentIntentForCurrentActiveCartController(
       getOrCreateShoppingCartSessionTrackingStateObjectValue(request);
     const currentActiveCartItemsListValue =
       shoppingCartSessionTrackingStateObjectValue.currentActiveCartItemsListValue;
+
+    // I patch old cart sessions by loading current price from product source when missing.
+    await enrichCurrentActiveCartItemsWithLatestPriceDataAction(
+      currentActiveCartItemsListValue
+    );
 
     if (!currentActiveCartItemsListValue.length) {
       return response.status(400).json({
@@ -122,6 +130,10 @@ async function completePaidCurrentActiveCartIntoPastOrderController(
       getOrCreateShoppingCartSessionTrackingStateObjectValue(request);
     const currentActiveCartItemsListValue =
       shoppingCartSessionTrackingStateObjectValue.currentActiveCartItemsListValue;
+
+    await enrichCurrentActiveCartItemsWithLatestPriceDataAction(
+      currentActiveCartItemsListValue
+    );
 
     if (!currentActiveCartItemsListValue.length) {
       return response.status(400).json({
@@ -287,6 +299,62 @@ function buildPaymentAmountDisplayTextValue({
   return `${stripeCurrencyCodeValue.toUpperCase()} ${(
     stripePaymentAmountInSmallestCurrencyUnitNumberValue / 100
   ).toFixed(2)}`;
+}
+
+async function enrichCurrentActiveCartItemsWithLatestPriceDataAction(
+  currentActiveCartItemsListValue
+) {
+  if (!Array.isArray(currentActiveCartItemsListValue)) {
+    return;
+  }
+
+  for (const currentActiveCartItemObjectValue of currentActiveCartItemsListValue) {
+    const normalizedCurrentActiveCartItemKnownUnitPriceAmountValue = Number(
+      currentActiveCartItemObjectValue.productUnitPriceAmountValue
+    );
+
+    if (
+      Number.isFinite(normalizedCurrentActiveCartItemKnownUnitPriceAmountValue) &&
+      normalizedCurrentActiveCartItemKnownUnitPriceAmountValue > 0
+    ) {
+      continue;
+    }
+
+    const normalizedCurrentActiveCartItemProductIdValue = Number(
+      currentActiveCartItemObjectValue.productIdValue
+    );
+
+    if (
+      !Number.isInteger(normalizedCurrentActiveCartItemProductIdValue) ||
+      normalizedCurrentActiveCartItemProductIdValue <= 0
+    ) {
+      continue;
+    }
+
+    try {
+      const singleProductDetailsLookupResultObjectValue =
+        await getSingleProductDetailsByIdFromDataSourceByIdValue(
+          normalizedCurrentActiveCartItemProductIdValue
+        );
+      const productDetailsPayloadObjectValue =
+        singleProductDetailsLookupResultObjectValue?.productDetailsPayloadObjectValue;
+      const normalizedProductUnitPriceAmountFromProductSourceValue = Number(
+        productDetailsPayloadObjectValue?.unitPriceAmount
+      );
+
+      if (
+        Number.isFinite(normalizedProductUnitPriceAmountFromProductSourceValue) &&
+        normalizedProductUnitPriceAmountFromProductSourceValue > 0
+      ) {
+        currentActiveCartItemObjectValue.productUnitPriceAmountValue =
+          normalizedProductUnitPriceAmountFromProductSourceValue;
+        currentActiveCartItemObjectValue.productCurrencyCodeValue =
+          productDetailsPayloadObjectValue?.currencyCode || "USD";
+      }
+    } catch (error) {
+      console.error("Cart price enrichment item error:", error);
+    }
+  }
 }
 
 module.exports = {

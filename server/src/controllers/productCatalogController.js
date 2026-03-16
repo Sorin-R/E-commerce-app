@@ -141,6 +141,15 @@ function mapDatabaseProductRowToPublicProductPayload(databaseProductRowObject) {
         databaseProductRowObject.product_price_amount ??
         null
     );
+  const fallbackProductByIdPayloadObjectValue = findFallbackProductByIdValue(
+    resolvedProductIdValue
+  );
+  const resolvedProductUnitPriceAmountValue =
+    normalizedKnownProductUnitPriceAmountValue ||
+    parseKnownNumberValueSafely(
+      fallbackProductByIdPayloadObjectValue?.unitPriceAmount
+    ) ||
+    null;
 
   return {
     id: resolvedProductIdValue,
@@ -150,10 +159,11 @@ function mapDatabaseProductRowToPublicProductPayload(databaseProductRowObject) {
       databaseProductRowObject.detailed_description_text ||
       databaseProductRowObject.detailed_description ||
       `${normalizedProductDescriptionTextValue} Product details loaded from database endpoint.`,
-    unitPriceAmount: normalizedKnownProductUnitPriceAmountValue,
+    unitPriceAmount: resolvedProductUnitPriceAmountValue,
     currencyCode:
       databaseProductRowObject.currency_code ||
       databaseProductRowObject.currency ||
+      fallbackProductByIdPayloadObjectValue?.currencyCode ||
       "USD",
     availabilityStatusText:
       databaseProductRowObject.availability_status_text ||
@@ -257,9 +267,20 @@ function resolveProductIdFromDatabaseRowObjectValue(databaseProductRowObject) {
 }
 
 function parseKnownNumberValueSafely(valueToParseAsNumber) {
+  if (
+    valueToParseAsNumber === null ||
+    valueToParseAsNumber === undefined ||
+    valueToParseAsNumber === ""
+  ) {
+    return null;
+  }
+
   const normalizedParsedNumberValue = Number(valueToParseAsNumber);
 
-  if (Number.isFinite(normalizedParsedNumberValue)) {
+  if (
+    Number.isFinite(normalizedParsedNumberValue) &&
+    normalizedParsedNumberValue > 0
+  ) {
     return normalizedParsedNumberValue;
   }
 

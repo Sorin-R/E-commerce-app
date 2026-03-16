@@ -83,13 +83,27 @@ async function addProductItemIntoCurrentActiveCartController(request, response) 
       currentActiveCartItemsListValue[
         foundCurrentActiveCartItemIndexValue
       ].quantityValue += quantityValue;
+      currentActiveCartItemsListValue[
+        foundCurrentActiveCartItemIndexValue
+      ].productUnitPriceAmountValue = resolveCurrentActiveCartItemUnitPriceAmountValue(
+        currentActiveCartItemsListValue[foundCurrentActiveCartItemIndexValue]
+          .productUnitPriceAmountValue,
+        productDetailsPayloadObjectValue.unitPriceAmount
+      );
+      currentActiveCartItemsListValue[
+        foundCurrentActiveCartItemIndexValue
+      ].productCurrencyCodeValue =
+        productDetailsPayloadObjectValue.currencyCode || "USD";
     } else {
       currentActiveCartItemsListValue.push({
         productIdValue: productDetailsPayloadObjectValue.id,
         productNameValue: productDetailsPayloadObjectValue.name,
         productDescriptionValue: productDetailsPayloadObjectValue.description,
         productImageUrlValue: productDetailsPayloadObjectValue.imageUrl,
-        productUnitPriceAmountValue: productDetailsPayloadObjectValue.unitPriceAmount,
+        productUnitPriceAmountValue: resolveCurrentActiveCartItemUnitPriceAmountValue(
+          productDetailsPayloadObjectValue.unitPriceAmount,
+          null
+        ),
         productCurrencyCodeValue:
           productDetailsPayloadObjectValue.currencyCode || "USD",
         productAvailabilityStatusTextValue:
@@ -205,17 +219,26 @@ function buildSortedPastCompletedOrderHistoryGroupListForResponseValue(
             runningCompletedOrderKnownTotalPriceAmountValue,
             completedOrderItemObjectValue
           ) => {
+            const normalizedCompletedOrderItemUnitPriceAmountValue = Number(
+              completedOrderItemObjectValue.productUnitPriceAmountValue
+            );
+            const normalizedCompletedOrderItemQuantityValue = Number(
+              completedOrderItemObjectValue.quantityValue || 0
+            );
+
             if (
-              typeof completedOrderItemObjectValue.productUnitPriceAmountValue !==
-              "number"
+              !Number.isFinite(normalizedCompletedOrderItemUnitPriceAmountValue) ||
+              normalizedCompletedOrderItemUnitPriceAmountValue <= 0 ||
+              !Number.isFinite(normalizedCompletedOrderItemQuantityValue) ||
+              normalizedCompletedOrderItemQuantityValue <= 0
             ) {
               return runningCompletedOrderKnownTotalPriceAmountValue;
             }
 
             return (
               runningCompletedOrderKnownTotalPriceAmountValue +
-              completedOrderItemObjectValue.productUnitPriceAmountValue *
-                Number(completedOrderItemObjectValue.quantityValue || 0)
+              normalizedCompletedOrderItemUnitPriceAmountValue *
+                normalizedCompletedOrderItemQuantityValue
             );
           },
           0
@@ -239,4 +262,30 @@ function buildSortedPastCompletedOrderHistoryGroupListForResponseValue(
           firstCompletedOrderHistoryGroupObjectValue.completedOrderCreatedAtIsoDateTextValue
         ).getTime()
     );
+}
+
+function resolveCurrentActiveCartItemUnitPriceAmountValue(
+  primaryUnitPriceAmountValue,
+  secondaryUnitPriceAmountValue
+) {
+  const normalizedPrimaryUnitPriceAmountValue = Number(primaryUnitPriceAmountValue);
+  const normalizedSecondaryUnitPriceAmountValue = Number(
+    secondaryUnitPriceAmountValue
+  );
+
+  if (
+    Number.isFinite(normalizedPrimaryUnitPriceAmountValue) &&
+    normalizedPrimaryUnitPriceAmountValue > 0
+  ) {
+    return normalizedPrimaryUnitPriceAmountValue;
+  }
+
+  if (
+    Number.isFinite(normalizedSecondaryUnitPriceAmountValue) &&
+    normalizedSecondaryUnitPriceAmountValue > 0
+  ) {
+    return normalizedSecondaryUnitPriceAmountValue;
+  }
+
+  return null;
 }
