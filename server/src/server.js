@@ -125,6 +125,7 @@ backendApplicationServer.listen(backendApplicationServerPortValue, () => {
   );
 });
 
+// I make this function for buildNormalizedSessionCookieSameSitePolicyTextValue logic here.
 function buildNormalizedSessionCookieSameSitePolicyTextValue(
   sessionCookieSameSitePolicyTextValue
 ) {
@@ -144,6 +145,7 @@ function buildNormalizedSessionCookieSameSitePolicyTextValue(
   return "lax";
 }
 
+// I make this function for normalizeCorsOriginTextValue logic here.
 function normalizeCorsOriginTextValue(corsOriginTextValue) {
   const normalizedCorsOriginTextValue = String(corsOriginTextValue || "")
     .trim()
@@ -163,6 +165,7 @@ function normalizeCorsOriginTextValue(corsOriginTextValue) {
   }
 }
 
+// I make this function for buildAllowedFrontendCorsOriginTextListValue logic here.
 function buildAllowedFrontendCorsOriginTextListValue({
   frontendApplicationUrlListTextValue,
   frontendApplicationRenderFallbackUrlTextValue

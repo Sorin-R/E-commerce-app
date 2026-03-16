@@ -2,6 +2,7 @@ import { useState } from "react";
 import { PaymentElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import { completePaidCurrentActiveCartIntoPastOrderRequest } from "../services/applicationCheckoutPaymentHttpService";
 
+// I make this function for ApplicationCheckoutStripePaymentForm logic here.
 function ApplicationCheckoutStripePaymentForm({
   onPaidCheckoutOrderCompletedSuccessfullyAction,
   onCheckoutStripePaymentFlowFeedbackMessageChangeAction
@@ -76,15 +77,15 @@ function ApplicationCheckoutStripePaymentForm({
 
   return (
     <form
-      className="ecommerce-application-checkout-flow-page-stripe-payment-form-wrapper-container"
+      className="ecom-app-check-page-stripe-payment-form-wrap-box"
       onSubmit={handleCheckoutStripePaymentFormSubmitAction}
     >
-      <div className="ecommerce-application-checkout-flow-page-stripe-payment-form-payment-element-wrapper-container">
+      <div className="ecom-app-check-page-stripe-payment-form-pay-ab48f7">
         <PaymentElement />
       </div>
 
       <button
-        className="ecommerce-application-checkout-flow-page-stripe-payment-form-submit-payment-button-element"
+        className="ecom-app-check-page-stripe-payment-form-sub-cc1eda"
         type="submit"
         disabled={
           !stripeObjectValue ||

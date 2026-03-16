@@ -74,6 +74,7 @@ authenticationRouter.post(
   logoutAuthenticatedSessionUserController
 );
 
+// I make this function for ensurePassportThirdPartyStrategyIsConfiguredMiddleware logic here.
 function ensurePassportThirdPartyStrategyIsConfiguredMiddleware(
   strategyNameValue
 ) {

@@ -6,6 +6,7 @@ import { useApplicationAuthenticationSessionContext } from "../context/Applicati
 import { useApplicationShoppingCartTrackingContext } from "../context/ApplicationShoppingCartTrackingContextProvider";
 import { fetchSingleProductDetailsByIdRequest } from "../services/applicationProductCatalogHttpService";
 
+// I make this function for ProductDetailsPage logic here.
 function ProductDetailsPage() {
   const { productId } = useParams();
   const productDetailsPageCurrentLocationObject = useLocation();
@@ -24,6 +25,7 @@ function ProductDetailsPage() {
   const { addProductItemIntoCurrentActiveCartFromBackendAction } =
     useApplicationShoppingCartTrackingContext();
 
+  // I make this function for loadSingleProductDetailsFromBackendAction logic here.
   const loadSingleProductDetailsFromBackendAction = async () => {
     try {
       setIsProductDetailsRequestLoadingState(true);
@@ -43,6 +45,7 @@ function ProductDetailsPage() {
     }
   };
 
+  // I make this function for handleAddCurrentProductToCurrentActiveCartByApiAction logic here.
   const handleAddCurrentProductToCurrentActiveCartByApiAction = async () => {
     if (!productDetailsPayloadState) {
       return;
@@ -100,27 +103,27 @@ function ProductDetailsPage() {
       pageDescriptionTextValue="Open one product and see more information before adding it to cart."
     >
       <Link
-        className="ecommerce-application-product-details-page-back-to-listing-link-button-element"
+        className="ecom-app-prod-det-page-back-to-listing-link-btn-el"
         to="/products"
       >
         Back to Products Listing
       </Link>
 
       {isProductDetailsRequestLoadingState ? (
-        <div className="ecommerce-application-product-details-page-loading-state-wrapper-container">
-          <p className="ecommerce-application-product-details-page-loading-state-message-text-line">
+        <div className="ecom-app-prod-det-page-load-state-wrap-box">
+          <p className="ecom-app-prod-det-page-load-state-msg-text-line">
             Loading product details now...
           </p>
         </div>
       ) : null}
 
       {productDetailsRequestErrorMessageState ? (
-        <div className="ecommerce-application-product-details-page-error-state-wrapper-container">
-          <p className="ecommerce-application-product-details-page-error-state-message-text-line">
+        <div className="ecom-app-product-details-page-error-state-wrap-box">
+          <p className="ecom-app-prod-det-page-error-state-msg-text-line">
             {productDetailsRequestErrorMessageState}
           </p>
           <button
-            className="ecommerce-application-product-details-page-error-state-retry-request-button-element"
+            className="ecom-app-prod-det-page-error-state-retry-re-1b6a89"
             type="button"
             onClick={loadSingleProductDetailsFromBackendAction}
           >
@@ -132,14 +135,14 @@ function ProductDetailsPage() {
       {!isProductDetailsRequestLoadingState &&
       !productDetailsRequestErrorMessageState &&
       productDetailsPayloadState ? (
-        <div className="ecommerce-application-product-details-page-main-layout-wrapper-container">
+        <div className="ecom-app-product-details-page-main-layout-wrap-box">
           <ApplicationProductDetailsInformationForDetailsPage
             productDetailsPayloadObjectValue={productDetailsPayloadState}
           />
 
-          <div className="ecommerce-application-product-details-page-add-to-cart-action-wrapper-container">
+          <div className="ecom-app-prod-det-page-add-to-cart-action-wrap-box">
             <button
-              className="ecommerce-application-product-details-page-add-item-to-cart-button-element"
+              className="ecom-app-prod-det-page-add-item-to-cart-btn-el"
               type="button"
               onClick={handleAddCurrentProductToCurrentActiveCartByApiAction}
               disabled={isAddProductToCartActionLoadingState}
@@ -150,7 +153,7 @@ function ProductDetailsPage() {
             </button>
 
             {addProductToCartActionMessageState ? (
-              <p className="ecommerce-application-product-details-page-add-to-cart-action-message-text-line">
+              <p className="ecom-app-prod-det-page-add-to-cart-action-m-1ae882">
                 {addProductToCartActionMessageState}
               </p>
             ) : null}
@@ -161,8 +164,8 @@ function ProductDetailsPage() {
       {!isProductDetailsRequestLoadingState &&
       !productDetailsRequestErrorMessageState &&
       !productDetailsPayloadState ? (
-        <div className="ecommerce-application-product-details-page-empty-state-wrapper-container">
-          <p className="ecommerce-application-product-details-page-empty-state-message-text-line">
+        <div className="ecom-app-product-details-page-empty-state-wrap-box">
+          <p className="ecom-app-prod-det-page-empty-state-msg-text-line">
             Product details not found for this id.
           </p>
         </div>

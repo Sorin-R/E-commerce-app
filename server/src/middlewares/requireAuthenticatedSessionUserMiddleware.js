@@ -1,3 +1,4 @@
+// I make this function for requireAuthenticatedSessionUserMiddleware logic here.
 function requireAuthenticatedSessionUserMiddleware(request, response, next) {
   const hasRequestSessionIdentifierValue = Boolean(
     request.sessionID && request.session

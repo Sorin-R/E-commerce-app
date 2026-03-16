@@ -1,6 +1,7 @@
 import { Navigate, Outlet, useLocation } from "react-router-dom";
 import { useApplicationAuthenticationSessionContext } from "../context/ApplicationAuthenticationSessionContextProvider";
 
+// I make this function for ApplicationProtectedRouteForAuthenticatedSessionUser logic here.
 function ApplicationProtectedRouteForAuthenticatedSessionUser() {
   const {
     isAuthenticatedSessionActiveStateValue,
@@ -10,8 +11,8 @@ function ApplicationProtectedRouteForAuthenticatedSessionUser() {
 
   if (isAuthenticatedSessionStatusLoadingState) {
     return (
-      <div className="ecommerce-application-protected-route-session-validation-loading-state-wrapper-container">
-        <p className="ecommerce-application-protected-route-session-validation-loading-state-message-text-line">
+      <div className="ecom-app-prot-route-sess-valid-load-state-wrap-box">
+        <p className="ecom-app-prot-route-sess-valid-load-state-m-506e17">
           Checking authentication session before opening protected page...
         </p>
       </div>

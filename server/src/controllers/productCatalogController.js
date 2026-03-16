@@ -57,6 +57,7 @@ const fallbackProductCatalogListForDevelopmentUsage = [
   }
 ];
 
+// I make this function for getProductCatalogListController logic here.
 async function getProductCatalogListController(request, response) {
   try {
     // I load all columns so this endpoint still work even when db schema names are different.
@@ -86,6 +87,7 @@ async function getProductCatalogListController(request, response) {
   }
 }
 
+// I make this function for getSingleProductDetailsByIdController logic here.
 async function getSingleProductDetailsByIdController(request, response) {
   const productIdValue = Number(request.params.productId);
 
@@ -120,6 +122,7 @@ async function getSingleProductDetailsByIdController(request, response) {
   }
 }
 
+// I make this function for mapDatabaseProductRowToPublicProductPayload logic here.
 function mapDatabaseProductRowToPublicProductPayload(databaseProductRowObject) {
   const resolvedProductIdValue =
     resolveProductIdFromDatabaseRowObjectValue(databaseProductRowObject);
@@ -179,6 +182,7 @@ function mapDatabaseProductRowToPublicProductPayload(databaseProductRowObject) {
   };
 }
 
+// I make this function for findFallbackProductByIdValue logic here.
 function findFallbackProductByIdValue(productIdValue) {
   return (
     fallbackProductCatalogListForDevelopmentUsage.find(
@@ -189,6 +193,7 @@ function findFallbackProductByIdValue(productIdValue) {
   );
 }
 
+// I make this function for getSingleProductDetailsByIdFromDataSourceByIdValue logic here.
 async function getSingleProductDetailsByIdFromDataSourceByIdValue(
   productIdValue
 ) {
@@ -236,6 +241,7 @@ module.exports = {
   getSingleProductDetailsByIdFromDataSourceByIdValue
 };
 
+// I make this function for loadProductCatalogRowsFromDatabaseDataSourceListValue logic here.
 async function loadProductCatalogRowsFromDatabaseDataSourceListValue() {
   const productCatalogQueryResult = await postgresDatabasePoolConnection.query(
     `
@@ -247,6 +253,7 @@ async function loadProductCatalogRowsFromDatabaseDataSourceListValue() {
   return productCatalogQueryResult.rows || [];
 }
 
+// I make this function for resolveProductIdFromDatabaseRowObjectValue logic here.
 function resolveProductIdFromDatabaseRowObjectValue(databaseProductRowObject) {
   const candidateProductIdValue =
     databaseProductRowObject.id ??
@@ -266,6 +273,7 @@ function resolveProductIdFromDatabaseRowObjectValue(databaseProductRowObject) {
   return null;
 }
 
+// I make this function for parseKnownNumberValueSafely logic here.
 function parseKnownNumberValueSafely(valueToParseAsNumber) {
   if (
     valueToParseAsNumber === null ||

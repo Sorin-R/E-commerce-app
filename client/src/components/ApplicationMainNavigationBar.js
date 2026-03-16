@@ -12,6 +12,7 @@ const applicationTopNavigationItemsList = [
   { path: "/order-history", label: "Order History" }
 ];
 
+// I make this function for ApplicationMainNavigationBar logic here.
 function ApplicationMainNavigationBar() {
   const {
     authenticatedSessionUserPayloadState,
@@ -26,6 +27,7 @@ function ApplicationMainNavigationBar() {
   const { currentActiveCartTotalQuantityState } =
     useApplicationShoppingCartTrackingContext();
 
+  // I make this function for handleNavigationBarLogoutButtonClickAction logic here.
   const handleNavigationBarLogoutButtonClickAction = async () => {
     try {
       setIsNavigationBarLogoutRequestLoadingState(true);
@@ -43,19 +45,19 @@ function ApplicationMainNavigationBar() {
   };
 
   return (
-    <header className="ecommerce-application-main-navigation-bar-wrapper-container">
-      <div className="ecommerce-application-main-navigation-bar-inner-content-container">
-        <div className="ecommerce-application-main-navigation-bar-brand-and-session-status-group-container">
-          <h1 className="ecommerce-application-main-navigation-bar-brand-title-text">
+    <header className="ecom-app-main-nav-wrap-box">
+      <div className="ecom-app-main-nav-inner-content-box">
+        <div className="ecom-app-main-nav-brand-and-sess-stat-group-box">
+          <h1 className="ecom-app-main-nav-brand-title-text">
             E-Commerce App
           </h1>
-          <p className="ecommerce-application-main-navigation-bar-session-status-text-line">
+          <p className="ecom-app-main-nav-session-status-text-line">
             {buildNavigationSessionStatusTextValue({
               isAuthenticatedSessionStatusLoadingState,
               authenticatedSessionUserPayloadState
             })}
           </p>
-          <p className="ecommerce-application-main-navigation-bar-current-active-cart-total-quantity-text-line">
+          <p className="ecom-app-main-nav-active-cart-total-qty-text-line">
             Current Cart Items:
             {" "}
             {currentActiveCartTotalQuantityState}
@@ -63,7 +65,7 @@ function ApplicationMainNavigationBar() {
         </div>
 
         <nav
-          className="ecommerce-application-main-navigation-bar-links-list-container"
+          className="ecom-app-main-nav-links-list-box"
           aria-label="Main Navigation"
         >
           {/* I map link list from one array so we manage menu easier later. */}
@@ -73,8 +75,8 @@ function ApplicationMainNavigationBar() {
               to={applicationNavigationItem.path}
               className={({ isActive }) =>
                 isActive
-                  ? "ecommerce-application-main-navigation-bar-link-button-active-state"
-                  : "ecommerce-application-main-navigation-bar-link-button-default-state"
+                  ? "ecom-app-main-nav-link-btn-active-state"
+                  : "ecom-app-main-nav-link-btn-default-state"
               }
               end={applicationNavigationItem.path === "/"}
             >
@@ -84,9 +86,9 @@ function ApplicationMainNavigationBar() {
         </nav>
 
         {authenticatedSessionUserPayloadState ? (
-          <div className="ecommerce-application-main-navigation-bar-authenticated-session-actions-group-container">
+          <div className="ecom-app-main-nav-auth-session-actions-group-box">
             <button
-              className="ecommerce-application-main-navigation-bar-authenticated-session-logout-button-element"
+              className="ecom-app-main-nav-auth-session-logout-btn-el"
               type="button"
               onClick={handleNavigationBarLogoutButtonClickAction}
               disabled={isNavigationBarLogoutRequestLoadingState}
@@ -96,7 +98,7 @@ function ApplicationMainNavigationBar() {
                 : "Logout"}
             </button>
             {navigationBarLogoutRequestErrorMessageState ? (
-              <p className="ecommerce-application-main-navigation-bar-authenticated-session-logout-error-message-text-line">
+              <p className="ecom-app-main-nav-auth-sess-logout-error-ms-d67e1b">
                 {navigationBarLogoutRequestErrorMessageState}
               </p>
             ) : null}
@@ -109,6 +111,7 @@ function ApplicationMainNavigationBar() {
 
 export default ApplicationMainNavigationBar;
 
+// I make this function for buildNavigationSessionStatusTextValue logic here.
 function buildNavigationSessionStatusTextValue({
   isAuthenticatedSessionStatusLoadingState,
   authenticatedSessionUserPayloadState

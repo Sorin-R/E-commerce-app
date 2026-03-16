@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 
+// I make this function for ApplicationProductCardForListingPage logic here.
 function ApplicationProductCardForListingPage({
   productIdValue,
   productNameValue,
@@ -7,10 +8,10 @@ function ApplicationProductCardForListingPage({
   productImageUrlValue
 }) {
   return (
-    <article className="ecommerce-application-product-listing-page-product-card-container">
-      <div className="ecommerce-application-product-listing-page-product-card-image-wrapper-container">
+    <article className="ecom-app-product-list-page-product-card-box">
+      <div className="ecom-app-prod-list-page-prod-card-image-wrap-box">
         <img
-          className="ecommerce-application-product-listing-page-product-card-image-element"
+          className="ecom-app-product-list-page-product-card-image-el"
           src={
             productImageUrlValue ||
             "https://images.unsplash.com/photo-1514996937319-344454492b37?auto=format&fit=crop&w=1200&q=80"
@@ -20,18 +21,18 @@ function ApplicationProductCardForListingPage({
         />
       </div>
 
-      <div className="ecommerce-application-product-listing-page-product-card-content-wrapper-container">
-        <h3 className="ecommerce-application-product-listing-page-product-card-title-text">
+      <div className="ecom-app-prod-list-page-prod-card-content-wrap-box">
+        <h3 className="ecom-app-product-list-page-product-card-title-text">
           {productNameValue}
         </h3>
-        <p className="ecommerce-application-product-listing-page-product-card-description-text">
+        <p className="ecom-app-product-list-page-product-card-desc-text">
           {productDescriptionValue}
         </p>
       </div>
 
-      <div className="ecommerce-application-product-listing-page-product-card-actions-wrapper-container">
+      <div className="ecom-app-prod-list-page-prod-card-act-wrap-box">
         <Link
-          className="ecommerce-application-product-listing-page-product-card-open-details-link-button-element"
+          className="ecom-app-prod-list-page-prod-card-open-det--06a761"
           to={`/products/${productIdValue}`}
         >
           Open Product Details
@@ -41,6 +42,7 @@ function ApplicationProductCardForListingPage({
   );
 }
 
+// I make this function for buildProductCardImageAlternativeTextValue logic here.
 function buildProductCardImageAlternativeTextValue(productNameValue) {
   // I keep alt text clear for accessibility reader users.
   return `${productNameValue} product image`;

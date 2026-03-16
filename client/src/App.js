@@ -11,12 +11,13 @@ import PageNotFoundPage from "./pages/PageNotFoundPage";
 import ApplicationProtectedRouteForAuthenticatedSessionUser from "./components/ApplicationProtectedRouteForAuthenticatedSessionUser";
 import "./styles/applicationRouterLayoutStyles.css";
 
+// I make this function for App logic here.
 function App() {
   return (
-    <div className="ecommerce-application-main-router-shell-wrapper-container">
+    <div className="ecom-app-main-router-shell-wrap-box">
       <ApplicationMainNavigationBar />
 
-      <main className="ecommerce-application-main-router-page-content-area-container">
+      <main className="ecom-app-main-router-page-content-area-box">
         {/* I setup all page routes here so user can navigate full app easy. */}
         <Routes>
           <Route path="/" element={<ApplicationHomeLandingPage />} />

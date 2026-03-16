@@ -7,6 +7,7 @@ const {
 
 let hasPassportThirdPartyConfigurationRanValue = false;
 
+// I make this function for configurePassportThirdPartyAuthenticationStrategies logic here.
 function configurePassportThirdPartyAuthenticationStrategies() {
   // I guard this function because in some runtime it can be called more than one time.
   if (hasPassportThirdPartyConfigurationRanValue) {
@@ -20,11 +21,13 @@ function configurePassportThirdPartyAuthenticationStrategies() {
   hasPassportThirdPartyConfigurationRanValue = true;
 }
 
+// I make this function for isPassportStrategyConfiguredByName logic here.
 function isPassportStrategyConfiguredByName(strategyNameValue) {
   // This check helps route know if provider strategy is ready before redirect user.
   return Boolean(passport._strategy(strategyNameValue));
 }
 
+// I make this function for configurePassportSessionSerializationHandlers logic here.
 function configurePassportSessionSerializationHandlers() {
   passport.serializeUser((authenticatedUserPayloadObjectValue, done) => {
     done(null, authenticatedUserPayloadObjectValue.id);
@@ -53,6 +56,7 @@ function configurePassportSessionSerializationHandlers() {
   });
 }
 
+// I make this function for configureGoogleThirdPartyAuthenticationStrategyIfReady logic here.
 function configureGoogleThirdPartyAuthenticationStrategyIfReady() {
   const isGoogleThirdPartyAuthenticationConfigPresentResult = Boolean(
     process.env.GOOGLE_OAUTH_CLIENT_ID &&
@@ -84,6 +88,7 @@ function configureGoogleThirdPartyAuthenticationStrategyIfReady() {
   );
 }
 
+// I make this function for configureFacebookThirdPartyAuthenticationStrategyIfReady logic here.
 function configureFacebookThirdPartyAuthenticationStrategyIfReady() {
   const isFacebookThirdPartyAuthenticationConfigPresentResult = Boolean(
     process.env.FACEBOOK_OAUTH_APP_ID && process.env.FACEBOOK_OAUTH_APP_SECRET
@@ -115,6 +120,7 @@ function configureFacebookThirdPartyAuthenticationStrategyIfReady() {
   );
 }
 
+// I make this function for createThirdPartyPassportVerifyCallbackFunction logic here.
 function createThirdPartyPassportVerifyCallbackFunction(
   oauthProviderNameValue
 ) {
@@ -149,6 +155,7 @@ function createThirdPartyPassportVerifyCallbackFunction(
   };
 }
 
+// I make this function for findOrCreateUserFromThirdPartyProfileInDatabase logic here.
 async function findOrCreateUserFromThirdPartyProfileInDatabase({
   oauthProviderNameValue,
   oauthProviderUserIdValue,
@@ -250,6 +257,7 @@ async function findOrCreateUserFromThirdPartyProfileInDatabase({
   );
 }
 
+// I make this function for buildUniqueUsernameForThirdPartyUser logic here.
 async function buildUniqueUsernameForThirdPartyUser({
   oauthProviderNameValue,
   oauthProviderDisplayNameValue,
@@ -302,6 +310,7 @@ async function buildUniqueUsernameForThirdPartyUser({
   return `${usernamePrefixValue}_oauth_${Date.now()}`;
 }
 
+// I make this function for mapDatabaseUserRowToAuthenticatedUserSessionPayload logic here.
 function mapDatabaseUserRowToAuthenticatedUserSessionPayload(
   databaseUserRowPayloadObjectValue
 ) {
@@ -324,6 +333,7 @@ function mapDatabaseUserRowToAuthenticatedUserSessionPayload(
   };
 }
 
+// I make this function for findOneUserRecordBySessionIdFromDatabase logic here.
 async function findOneUserRecordBySessionIdFromDatabase({
   authenticatedUserIdValue
 }) {

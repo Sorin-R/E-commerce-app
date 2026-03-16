@@ -11,6 +11,7 @@ const {
 
 let stripeApiClientObjectValue = null;
 
+// I make this function for createStripePaymentIntentForCurrentActiveCartController logic here.
 async function createStripePaymentIntentForCurrentActiveCartController(
   request,
   response
@@ -110,6 +111,7 @@ async function createStripePaymentIntentForCurrentActiveCartController(
   }
 }
 
+// I make this function for completePaidCurrentActiveCartIntoPastOrderController logic here.
 async function completePaidCurrentActiveCartIntoPastOrderController(
   request,
   response
@@ -259,6 +261,7 @@ async function completePaidCurrentActiveCartIntoPastOrderController(
   }
 }
 
+// I make this function for getStripeApiClientInstanceValue logic here.
 function getStripeApiClientInstanceValue() {
   const stripeSecretKeyValue = process.env.STRIPE_SECRET_KEY || "";
 
@@ -273,6 +276,7 @@ function getStripeApiClientInstanceValue() {
   return stripeApiClientObjectValue;
 }
 
+// I make this function for findStripeCurrencyCodeFromCurrentActiveCartItemsListValue logic here.
 function findStripeCurrencyCodeFromCurrentActiveCartItemsListValue(
   currentActiveCartItemsListValue
 ) {
@@ -292,6 +296,7 @@ function findStripeCurrencyCodeFromCurrentActiveCartItemsListValue(
   return normalizedStripeCurrencyCodeValue || "usd";
 }
 
+// I make this function for buildPaymentAmountDisplayTextValue logic here.
 function buildPaymentAmountDisplayTextValue({
   stripePaymentAmountInSmallestCurrencyUnitNumberValue,
   stripeCurrencyCodeValue
@@ -301,6 +306,7 @@ function buildPaymentAmountDisplayTextValue({
   ).toFixed(2)}`;
 }
 
+// I make this function for enrichCurrentActiveCartItemsWithLatestPriceDataAction logic here.
 async function enrichCurrentActiveCartItemsWithLatestPriceDataAction(
   currentActiveCartItemsListValue
 ) {

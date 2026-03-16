@@ -14,6 +14,7 @@ const stripeClientPromiseObjectValue = stripePublishableKeyValue
   ? loadStripe(stripePublishableKeyValue)
   : null;
 
+// I make this function for CheckoutFlowPage logic here.
 function CheckoutFlowPage() {
   const { isAuthenticatedSessionActiveStateValue } =
     useApplicationAuthenticationSessionContext();
@@ -199,12 +200,12 @@ function CheckoutFlowPage() {
       pageDescriptionTextValue="Review current cart items, pay with Stripe, and complete your purchase."
     >
       {!isAuthenticatedSessionActiveStateValue ? (
-        <div className="ecommerce-application-checkout-flow-page-auth-required-state-wrapper-container">
-          <p className="ecommerce-application-checkout-flow-page-auth-required-state-message-text-line">
+        <div className="ecom-app-check-page-auth-req-state-wrap-box">
+          <p className="ecom-app-check-page-auth-req-state-msg-text-line">
             You need login first before checkout and cart actions.
           </p>
           <Link
-            className="ecommerce-application-checkout-flow-page-auth-required-state-go-to-login-link-button-element"
+            className="ecom-app-check-page-auth-req-state-goto-log-575435"
             to="/login"
           >
             Go to Login
@@ -214,8 +215,8 @@ function CheckoutFlowPage() {
 
       {isAuthenticatedSessionActiveStateValue &&
       isShoppingCartTrackingRequestLoadingState ? (
-        <div className="ecommerce-application-checkout-flow-page-loading-state-wrapper-container">
-          <p className="ecommerce-application-checkout-flow-page-loading-state-message-text-line">
+        <div className="ecom-app-checkout-page-loading-state-wrap-box">
+          <p className="ecom-app-checkout-page-loading-state-msg-text-line">
             Loading current active cart items now...
           </p>
         </div>
@@ -224,8 +225,8 @@ function CheckoutFlowPage() {
       {isAuthenticatedSessionActiveStateValue &&
       !isShoppingCartTrackingRequestLoadingState &&
       shoppingCartTrackingRequestErrorMessageState ? (
-        <div className="ecommerce-application-checkout-flow-page-error-state-wrapper-container">
-          <p className="ecommerce-application-checkout-flow-page-error-state-message-text-line">
+        <div className="ecom-app-checkout-page-error-state-wrap-box">
+          <p className="ecom-app-checkout-page-error-state-msg-text-line">
             {shoppingCartTrackingRequestErrorMessageState}
           </p>
         </div>
@@ -235,12 +236,12 @@ function CheckoutFlowPage() {
       !isShoppingCartTrackingRequestLoadingState &&
       !shoppingCartTrackingRequestErrorMessageState &&
       !currentActiveCartItemsListState.length ? (
-        <div className="ecommerce-application-checkout-flow-page-empty-state-wrapper-container">
-          <p className="ecommerce-application-checkout-flow-page-empty-state-message-text-line">
+        <div className="ecom-app-checkout-page-empty-state-wrap-box">
+          <p className="ecom-app-checkout-page-empty-state-msg-text-line">
             Current cart is empty. Add item from product details page first.
           </p>
           <Link
-            className="ecommerce-application-checkout-flow-page-empty-state-go-to-products-link-button-element"
+            className="ecom-app-check-page-empty-state-goto-produc-cc2bb9"
             to="/products"
           >
             Open Products
@@ -252,28 +253,28 @@ function CheckoutFlowPage() {
       !isShoppingCartTrackingRequestLoadingState &&
       !shoppingCartTrackingRequestErrorMessageState &&
       currentActiveCartItemsListState.length ? (
-        <div className="ecommerce-application-checkout-flow-page-main-layout-wrapper-container">
-          <ul className="ecommerce-application-checkout-flow-page-current-active-cart-items-list-container">
+        <div className="ecom-app-checkout-page-main-layout-wrap-box">
+          <ul className="ecom-app-checkout-page-active-cart-items-list-box">
             {currentActiveCartItemsListState.map(
               (currentActiveCartItemObjectValue) => (
                 <li
-                  className="ecommerce-application-checkout-flow-page-current-active-cart-items-list-item-container"
+                  className="ecom-app-check-page-actv-cart-items-list-item-box"
                   key={currentActiveCartItemObjectValue.productIdValue}
                 >
-                  <article className="ecommerce-application-checkout-flow-page-current-active-cart-item-card-container">
-                    <h3 className="ecommerce-application-checkout-flow-page-current-active-cart-item-card-title-text">
+                  <article className="ecom-app-checkout-page-active-cart-item-card-box">
+                    <h3 className="ecom-app-check-page-actv-cart-item-card-title-text">
                       {currentActiveCartItemObjectValue.productNameValue}
                     </h3>
-                    <p className="ecommerce-application-checkout-flow-page-current-active-cart-item-card-description-text-line">
+                    <p className="ecom-app-check-page-actv-cart-item-card-des-102d6b">
                       {currentActiveCartItemObjectValue.productDescriptionValue}
                     </p>
-                    <p className="ecommerce-application-checkout-flow-page-current-active-cart-item-card-quantity-text-line">
+                    <p className="ecom-app-check-page-actv-cart-item-card-qty-a5921f">
                       Quantity:
                       {" "}
                       {currentActiveCartItemObjectValue.quantityValue}
                     </p>
                     <button
-                      className="ecommerce-application-checkout-flow-page-current-active-cart-item-card-remove-item-button-element"
+                      className="ecom-app-check-page-actv-cart-item-card-rem-32d064"
                       type="button"
                       onClick={() =>
                         handleRemoveProductItemFromCurrentActiveCartAction(
@@ -296,13 +297,13 @@ function CheckoutFlowPage() {
             )}
           </ul>
 
-          <div className="ecommerce-application-checkout-flow-page-current-active-cart-summary-card-wrapper-container">
-            <p className="ecommerce-application-checkout-flow-page-current-active-cart-summary-card-total-items-text-line">
+          <div className="ecom-app-check-page-actv-cart-sum-card-wrap-box">
+            <p className="ecom-app-check-page-actv-cart-sum-card-tota-861af3">
               Current cart total quantity:
               {" "}
               {currentActiveCartTotalQuantityState}
             </p>
-            <p className="ecommerce-application-checkout-flow-page-current-active-cart-summary-card-total-price-text-line">
+            <p className="ecom-app-check-page-actv-cart-sum-card-tota-712d79">
               Current known total price:
               {" "}
               {Number.isFinite(currentActiveCartKnownTotalPriceAmountValue)
@@ -312,7 +313,7 @@ function CheckoutFlowPage() {
 
             {checkoutStripePaymentIntentSummaryPayloadState
               ?.stripePaymentAmountDisplayTextValue ? (
-                <p className="ecommerce-application-checkout-flow-page-current-active-cart-summary-card-stripe-amount-text-line">
+                <p className="ecom-app-check-page-actv-cart-sum-card-stri-45c368">
                   Stripe charge amount:
                   {" "}
                   {
@@ -322,13 +323,13 @@ function CheckoutFlowPage() {
               ) : null}
 
             {isCheckoutStripePaymentIntentCreateRequestLoadingState ? (
-              <p className="ecommerce-application-checkout-flow-page-current-active-cart-summary-card-create-intent-loading-message-text-line">
+              <p className="ecom-app-check-page-actv-cart-sum-card-inte-bde86d">
                 Preparing secure Stripe payment form...
               </p>
             ) : null}
 
             {checkoutStripePaymentIntentCreateRequestErrorMessageState ? (
-              <p className="ecommerce-application-checkout-flow-page-current-active-cart-summary-card-create-intent-error-message-text-line">
+              <p className="ecom-app-check-page-actv-cart-sum-card-inte-48c738">
                 {checkoutStripePaymentIntentCreateRequestErrorMessageState}
               </p>
             ) : null}
@@ -359,24 +360,24 @@ function CheckoutFlowPage() {
       ) : null}
 
       {checkoutRemoveItemActionMessageState ? (
-        <p className="ecommerce-application-checkout-flow-page-remove-item-action-feedback-message-text-line">
+        <p className="ecom-app-check-page-remove-item-action-fb-m-a58eff">
           {checkoutRemoveItemActionMessageState}
         </p>
       ) : null}
 
       {checkoutStripePaymentFlowFeedbackMessageState ? (
-        <p className="ecommerce-application-checkout-flow-page-stripe-payment-flow-feedback-message-text-line">
+        <p className="ecom-app-check-page-stripe-payment-flow-fb--99375d">
           {checkoutStripePaymentFlowFeedbackMessageState}
         </p>
       ) : null}
 
       {checkoutPaidOrderSuccessMessageState ? (
-        <div className="ecommerce-application-checkout-flow-page-paid-order-success-feedback-box-wrapper-container">
-          <p className="ecommerce-application-checkout-flow-page-paid-order-success-feedback-message-text-line">
+        <div className="ecom-app-check-page-paid-ord-fb-box-wrap-box">
+          <p className="ecom-app-check-page-paid-ord-fb-msg-text-line">
             {checkoutPaidOrderSuccessMessageState}
           </p>
           <Link
-            className="ecommerce-application-checkout-flow-page-paid-order-success-feedback-open-order-history-link-button-element"
+            className="ecom-app-check-page-paid-ord-fb-open-orders-92cd2e"
             to="/order-history"
           >
             Open Order History

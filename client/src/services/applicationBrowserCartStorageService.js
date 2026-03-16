@@ -38,6 +38,7 @@ export function addProductItemToBrowserCartStorage({
   };
 }
 
+// I make this function for readCartItemListFromBrowserStorageSafely logic here.
 function readCartItemListFromBrowserStorageSafely() {
   if (!isBrowserWindowAvailableNow()) {
     return [];
@@ -59,6 +60,7 @@ function readCartItemListFromBrowserStorageSafely() {
   }
 }
 
+// I make this function for saveCartItemListToBrowserStorageSafely logic here.
 function saveCartItemListToBrowserStorageSafely(cartItemListValue) {
   if (!isBrowserWindowAvailableNow()) {
     return;
@@ -71,6 +73,7 @@ function saveCartItemListToBrowserStorageSafely(cartItemListValue) {
   );
 }
 
+// I make this function for calculateCartTotalQuantityValue logic here.
 function calculateCartTotalQuantityValue(cartItemListValue) {
   return cartItemListValue.reduce(
     (runningCartTotalQuantityValue, cartItemObjectValue) =>
@@ -79,6 +82,7 @@ function calculateCartTotalQuantityValue(cartItemListValue) {
   );
 }
 
+// I make this function for isBrowserWindowAvailableNow logic here.
 function isBrowserWindowAvailableNow() {
   return typeof window !== "undefined";
 }

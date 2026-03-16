@@ -4,6 +4,7 @@ import ApplicationSimplePageTemplateLayout from "../components/ApplicationSimple
 import { useApplicationAuthenticationSessionContext } from "../context/ApplicationAuthenticationSessionContextProvider";
 import { registerWithUsernameAndPasswordRequest } from "../services/applicationAuthenticationHttpService";
 
+// I make this function for UserRegistrationPage logic here.
 function UserRegistrationPage() {
   const [registrationFormFieldValuesState, setRegistrationFormFieldValuesState] =
     useState({
@@ -22,6 +23,7 @@ function UserRegistrationPage() {
   const { setAuthenticatedSessionUserFromLoginResponseAction } =
     useApplicationAuthenticationSessionContext();
 
+  // I make this function for handleRegistrationFormFieldValueChangeAction logic here.
   const handleRegistrationFormFieldValueChangeAction = (event) => {
     const { name, value } = event.target;
 
@@ -33,6 +35,7 @@ function UserRegistrationPage() {
     );
   };
 
+  // I make this function for handleRegistrationFormSubmitAction logic here.
   const handleRegistrationFormSubmitAction = async (event) => {
     event.preventDefault();
     setRegistrationErrorMessageState("");
@@ -74,17 +77,17 @@ function UserRegistrationPage() {
       pageDescriptionTextValue="Create account with username and password to start shopping."
     >
       <form
-        className="ecommerce-application-user-registration-page-form-layout-container"
+        className="ecom-app-user-register-page-form-layout-box"
         onSubmit={handleRegistrationFormSubmitAction}
       >
         <label
-          className="ecommerce-application-user-registration-page-username-field-group-container"
+          className="ecom-app-user-reg-page-username-field-group-box"
           htmlFor="registrationUserNameInputField"
         >
           Username
           <input
             id="registrationUserNameInputField"
-            className="ecommerce-application-user-registration-page-username-input-field-element"
+            className="ecom-app-user-reg-page-username-input-field-el"
             type="text"
             name="username"
             placeholder="Write your username"
@@ -95,13 +98,13 @@ function UserRegistrationPage() {
         </label>
 
         <label
-          className="ecommerce-application-user-registration-page-password-field-group-container"
+          className="ecom-app-user-reg-page-password-field-group-box"
           htmlFor="registrationPasswordInputField"
         >
           Password
           <input
             id="registrationPasswordInputField"
-            className="ecommerce-application-user-registration-page-password-input-field-element"
+            className="ecom-app-user-reg-page-password-input-field-el"
             type="password"
             name="password"
             placeholder="Write your password"
@@ -112,19 +115,19 @@ function UserRegistrationPage() {
         </label>
 
         {registrationErrorMessageState ? (
-          <p className="ecommerce-application-user-registration-page-feedback-error-message-box">
+          <p className="ecom-app-user-register-page-feedback-error-msg-box">
             {registrationErrorMessageState}
           </p>
         ) : null}
 
         {registrationSuccessMessageState ? (
-          <p className="ecommerce-application-user-registration-page-feedback-success-message-box">
+          <p className="ecom-app-user-reg-page-fb-ok-msg-box">
             {registrationSuccessMessageState}
           </p>
         ) : null}
 
         <button
-          className="ecommerce-application-user-registration-page-submit-registration-button-element"
+          className="ecom-app-user-register-page-submit-register-btn-el"
           type="submit"
           disabled={isRegistrationFormSubmissionLoadingState}
         >
@@ -134,11 +137,11 @@ function UserRegistrationPage() {
         </button>
       </form>
 
-      <p className="ecommerce-application-user-registration-page-login-helper-text-line">
+      <p className="ecom-app-user-register-page-login-helper-text-line">
         Already have account?
         {" "}
         <Link
-          className="ecommerce-application-user-registration-page-login-inline-link-element"
+          className="ecom-app-user-register-page-login-inline-link-el"
           to="/login"
         >
           Login from here

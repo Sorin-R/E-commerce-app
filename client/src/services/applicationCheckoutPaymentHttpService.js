@@ -65,6 +65,7 @@ export async function completePaidCurrentActiveCartIntoPastOrderRequest({
   return parsedCompletePaidCurrentActiveCartIntoPastOrderResponseDataObjectValue;
 }
 
+// I make this function for parseJsonResponseBodySafely logic here.
 async function parseJsonResponseBodySafely(httpResponseObjectValue) {
   const responseBodyRawTextValue = await httpResponseObjectValue.text();
 
@@ -79,6 +80,7 @@ async function parseJsonResponseBodySafely(httpResponseObjectValue) {
   }
 }
 
+// I make this function for buildHttpRequestErrorObject logic here.
 function buildHttpRequestErrorObject({
   httpStatusCodeValue,
   fallbackMessageTextValue,

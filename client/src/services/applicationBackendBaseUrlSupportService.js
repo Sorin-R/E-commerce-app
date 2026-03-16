@@ -29,7 +29,7 @@ export function getFrontendApplicationBackendApiBaseUrlTextValue() {
     // I keep Render fallback so app can still call backend when env is missing by mistake.
     // This is not perfect for all names, but it help many deploy case quickly.
     if (browserWindowLocationHostNameTextValue.includes("onrender.com")) {
-      return "https://ecommerce-application-backend-api.onrender.com";
+      return "https://ecom-app-backend-api.onrender.com";
     }
   }
 

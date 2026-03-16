@@ -1,10 +1,11 @@
 import ApplicationProductCardForListingPage from "./ApplicationProductCardForListingPage";
 
+// I make this function for ApplicationProductListForListingPage logic here.
 function ApplicationProductListForListingPage({ productCatalogListValue }) {
   if (!productCatalogListValue.length) {
     return (
-      <div className="ecommerce-application-product-listing-page-empty-state-wrapper-container">
-        <p className="ecommerce-application-product-listing-page-empty-state-message-text-line">
+      <div className="ecom-app-product-list-page-empty-state-wrap-box">
+        <p className="ecom-app-prod-list-page-empty-state-msg-text-line">
           No products found for now.
         </p>
       </div>
@@ -12,11 +13,11 @@ function ApplicationProductListForListingPage({ productCatalogListValue }) {
   }
 
   return (
-    <ul className="ecommerce-application-product-listing-page-product-grid-list-container">
+    <ul className="ecom-app-product-list-page-product-grid-list-box">
       {productCatalogListValue.map((productCatalogItemObjectValue) => (
         <li
           key={productCatalogItemObjectValue.id}
-          className="ecommerce-application-product-listing-page-product-grid-list-item-container"
+          className="ecom-app-prod-list-page-prod-grid-list-item-box"
         >
           <ApplicationProductCardForListingPage
             productIdValue={productCatalogItemObjectValue.id}

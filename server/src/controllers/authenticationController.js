@@ -9,6 +9,7 @@ const {
   destroySessionStorePromise
 } = require("../helpers/authenticatedSessionSupportHelper");
 
+// I make this function for loginUserWithUsernameAndPasswordController logic here.
 async function loginUserWithUsernameAndPasswordController(request, response) {
   // I read login input from request body sent by frontend.
   const { username, password } = request.body;
@@ -96,6 +97,7 @@ async function loginUserWithUsernameAndPasswordController(request, response) {
   }
 }
 
+// I make this function for registerUserWithUsernameAndPasswordController logic here.
 async function registerUserWithUsernameAndPasswordController(request, response) {
   const { username, password } = request.body;
   const normalizedUsernameTextValue = String(username || "").trim();
@@ -210,6 +212,7 @@ async function registerUserWithUsernameAndPasswordController(request, response) 
   }
 }
 
+// I make this function for handleThirdPartyAuthenticationSuccessRedirectController logic here.
 async function handleThirdPartyAuthenticationSuccessRedirectController(
   request,
   response
@@ -261,6 +264,7 @@ async function handleThirdPartyAuthenticationSuccessRedirectController(
   }
 }
 
+// I make this function for redirectAfterThirdPartyAuthenticationFailureController logic here.
 function redirectAfterThirdPartyAuthenticationFailureController(
   request,
   response
@@ -279,6 +283,7 @@ function redirectAfterThirdPartyAuthenticationFailureController(
   return response.redirect(frontendOAuthFailureRedirectUrlValue);
 }
 
+// I make this function for getCurrentAuthenticatedSessionUserController logic here.
 function getCurrentAuthenticatedSessionUserController(request, response) {
   const authenticatedSessionUserPayloadObject =
     request.user || request.session?.authenticatedUser || null;
@@ -295,6 +300,7 @@ function getCurrentAuthenticatedSessionUserController(request, response) {
   });
 }
 
+// I make this function for getAuthenticatedSessionStatusController logic here.
 function getAuthenticatedSessionStatusController(request, response) {
   const authenticatedSessionUserPayloadObject =
     request.user || request.session?.authenticatedUser || null;
@@ -308,6 +314,7 @@ function getAuthenticatedSessionStatusController(request, response) {
   });
 }
 
+// I make this function for findOneUserRecordForLocalLoginByUsernameFromDatabase logic here.
 async function findOneUserRecordForLocalLoginByUsernameFromDatabase({
   usernameTextValue
 }) {
@@ -346,6 +353,7 @@ async function findOneUserRecordForLocalLoginByUsernameFromDatabase({
   return null;
 }
 
+// I make this function for resolvePasswordCredentialTextValueFromDatabaseUserRowPayloadObjectValue logic here.
 function resolvePasswordCredentialTextValueFromDatabaseUserRowPayloadObjectValue(
   databaseUserRowPayloadObjectValue
 ) {
@@ -361,6 +369,7 @@ function resolvePasswordCredentialTextValueFromDatabaseUserRowPayloadObjectValue
     : null;
 }
 
+// I make this function for compareLoginPasswordWithStoredCredentialTextValue logic here.
 async function compareLoginPasswordWithStoredCredentialTextValue({
   plainPasswordTextValue,
   storedCredentialTextValue
@@ -376,10 +385,12 @@ async function compareLoginPasswordWithStoredCredentialTextValue({
   }
 }
 
+// I make this function for checkIfStoredCredentialLooksLikeBcryptHash logic here.
 function checkIfStoredCredentialLooksLikeBcryptHash(storedCredentialTextValue) {
   return /^\$2[aby]\$\d{2}\$/.test(String(storedCredentialTextValue || ""));
 }
 
+// I make this function for resolveUserIdValueFromDatabaseUserRowPayloadObjectValue logic here.
 function resolveUserIdValueFromDatabaseUserRowPayloadObjectValue(
   databaseUserRowPayloadObjectValue
 ) {
@@ -406,6 +417,7 @@ function resolveUserIdValueFromDatabaseUserRowPayloadObjectValue(
   return String(candidateUserIdValue).trim() || null;
 }
 
+// I make this function for resolveUsernameTextValueFromDatabaseUserRowPayloadObjectValue logic here.
 function resolveUsernameTextValueFromDatabaseUserRowPayloadObjectValue(
   databaseUserRowPayloadObjectValue
 ) {
@@ -416,6 +428,7 @@ function resolveUsernameTextValueFromDatabaseUserRowPayloadObjectValue(
   );
 }
 
+// I make this function for resolveAuthProviderTextValueFromDatabaseUserRowPayloadObjectValue logic here.
 function resolveAuthProviderTextValueFromDatabaseUserRowPayloadObjectValue(
   databaseUserRowPayloadObjectValue
 ) {
@@ -426,6 +439,7 @@ function resolveAuthProviderTextValueFromDatabaseUserRowPayloadObjectValue(
   );
 }
 
+// I make this function for resolveEmailAddressTextValueFromDatabaseUserRowPayloadObjectValue logic here.
 function resolveEmailAddressTextValueFromDatabaseUserRowPayloadObjectValue(
   databaseUserRowPayloadObjectValue
 ) {
@@ -436,6 +450,7 @@ function resolveEmailAddressTextValueFromDatabaseUserRowPayloadObjectValue(
   );
 }
 
+// I make this function for buildAuthenticatedSessionUserPayloadFromDatabaseUserRowPayloadObjectValue logic here.
 function buildAuthenticatedSessionUserPayloadFromDatabaseUserRowPayloadObjectValue(
   databaseUserRowPayloadObjectValue
 ) {
@@ -465,6 +480,7 @@ function buildAuthenticatedSessionUserPayloadFromDatabaseUserRowPayloadObjectVal
   };
 }
 
+// I make this function for loadUsersTableColumnMetadataListFromDatabase logic here.
 async function loadUsersTableColumnMetadataListFromDatabase() {
   const usersTableColumnsQueryResult = await postgresDatabasePoolConnection.query(
     `
@@ -480,6 +496,7 @@ async function loadUsersTableColumnMetadataListFromDatabase() {
   return usersTableColumnsQueryResult.rows || [];
 }
 
+// I make this function for resolveSupportedUsersTableColumnNameOrNull logic here.
 function resolveSupportedUsersTableColumnNameOrNull(
   usersTableColumnMetadataListValue,
   supportedUsersTableColumnNameListValue
@@ -497,6 +514,7 @@ function resolveSupportedUsersTableColumnNameOrNull(
   );
 }
 
+// I make this function for checkIfUsersTableUsernameAlreadyExistsValue logic here.
 async function checkIfUsersTableUsernameAlreadyExistsValue({
   usernameTextValue,
   resolvedUsernameColumnNameValue
@@ -515,6 +533,7 @@ async function checkIfUsersTableUsernameAlreadyExistsValue({
   return existingUsernameSearchQueryResult.rowCount > 0;
 }
 
+// I make this function for insertNewLocalUserAccountIntoUsersTable logic here.
 async function insertNewLocalUserAccountIntoUsersTable({
   usersTableColumnMetadataListValue,
   resolvedUsernameColumnNameValue,
@@ -560,6 +579,7 @@ async function insertNewLocalUserAccountIntoUsersTable({
   return createdUserInsertQueryResult.rows[0] || null;
 }
 
+// I make this function for logoutAuthenticatedSessionUserController logic here.
 async function logoutAuthenticatedSessionUserController(request, response) {
   try {
     await logoutPassportSessionPromiseIfAvailable(request);
@@ -585,6 +605,7 @@ async function logoutAuthenticatedSessionUserController(request, response) {
   }
 }
 
+// I make this function for buildFrontendThirdPartyAuthenticationRedirectUrl logic here.
 function buildFrontendThirdPartyAuthenticationRedirectUrl({
   oauthStatusValue,
   oauthProviderNameValue,
@@ -616,6 +637,7 @@ function buildFrontendThirdPartyAuthenticationRedirectUrl({
   return frontendLoginPageRedirectUrlObject.toString();
 }
 
+// I make this function for logoutPassportSessionPromiseIfAvailable logic here.
 function logoutPassportSessionPromiseIfAvailable(request) {
   return new Promise((resolve, reject) => {
     if (!request.logout) {

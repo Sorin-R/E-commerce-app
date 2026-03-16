@@ -16,6 +16,7 @@ import {
 
 const ApplicationShoppingCartTrackingContextObject = createContext(null);
 
+// I make this function for ApplicationShoppingCartTrackingContextProvider logic here.
 function ApplicationShoppingCartTrackingContextProvider({ children }) {
   const {
     isAuthenticatedSessionActiveStateValue,
@@ -191,6 +192,7 @@ function ApplicationShoppingCartTrackingContextProvider({ children }) {
   );
 }
 
+// I make this function for useApplicationShoppingCartTrackingContext logic here.
 function useApplicationShoppingCartTrackingContext() {
   const applicationShoppingCartTrackingContextValueObject = useContext(
     ApplicationShoppingCartTrackingContextObject

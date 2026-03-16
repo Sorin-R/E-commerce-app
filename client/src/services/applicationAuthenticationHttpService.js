@@ -124,6 +124,7 @@ export function redirectToThirdPartyProviderAuthentication(providerNameValue) {
   window.location.href = `${frontendApplicationApiBaseUrlValue}/api/auth/${providerNameValue}`;
 }
 
+// I make this function for parseJsonResponseBodySafely logic here.
 async function parseJsonResponseBodySafely(httpResponseObjectValue) {
   // Some response maybe empty text, so I parse safe and return empty object.
   const responseBodyRawTextValue = await httpResponseObjectValue.text();
@@ -139,6 +140,7 @@ async function parseJsonResponseBodySafely(httpResponseObjectValue) {
   }
 }
 
+// I make this function for buildHttpRequestErrorObject logic here.
 function buildHttpRequestErrorObject({
   httpStatusCodeValue,
   fallbackMessageTextValue,

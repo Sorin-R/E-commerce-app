@@ -7,6 +7,7 @@ const {
   completeCurrentActiveCartIntoPastCompletedOrderFromSessionStateValue
 } = require("../helpers/shoppingCartSessionTrackingSupportHelper");
 
+// I make this function for getCurrentActiveCartItemsController logic here.
 async function getCurrentActiveCartItemsController(request, response) {
   const shoppingCartSessionTrackingStateObjectValue =
     getOrCreateShoppingCartSessionTrackingStateObjectValue(request);
@@ -19,6 +20,7 @@ async function getCurrentActiveCartItemsController(request, response) {
   });
 }
 
+// I make this function for getPastCompletedOrderHistoryGroupListController logic here.
 async function getPastCompletedOrderHistoryGroupListController(
   request,
   response
@@ -37,6 +39,7 @@ async function getPastCompletedOrderHistoryGroupListController(
   });
 }
 
+// I make this function for addProductItemIntoCurrentActiveCartController logic here.
 async function addProductItemIntoCurrentActiveCartController(request, response) {
   const productIdValue = Number(request.body.productIdValue);
   const quantityValue = Number(request.body.quantityValue || 1);
@@ -127,6 +130,7 @@ async function addProductItemIntoCurrentActiveCartController(request, response) 
   }
 }
 
+// I make this function for deleteProductItemFromCurrentActiveCartController logic here.
 async function deleteProductItemFromCurrentActiveCartController(request, response) {
   const productIdValue = Number(request.params.productIdValue);
 
@@ -159,6 +163,7 @@ async function deleteProductItemFromCurrentActiveCartController(request, respons
   });
 }
 
+// I make this function for completeCurrentActiveCartIntoPastCompletedOrderController logic here.
 async function completeCurrentActiveCartIntoPastCompletedOrderController(
   request,
   response
@@ -194,6 +199,7 @@ module.exports = {
   completeCurrentActiveCartIntoPastCompletedOrderController
 };
 
+// I make this function for buildSortedPastCompletedOrderHistoryGroupListForResponseValue logic here.
 function buildSortedPastCompletedOrderHistoryGroupListForResponseValue(
   pastCompletedOrderHistoryGroupListValue
 ) {
@@ -264,6 +270,7 @@ function buildSortedPastCompletedOrderHistoryGroupListForResponseValue(
     );
 }
 
+// I make this function for resolveCurrentActiveCartItemUnitPriceAmountValue logic here.
 function resolveCurrentActiveCartItemUnitPriceAmountValue(
   primaryUnitPriceAmountValue,
   secondaryUnitPriceAmountValue

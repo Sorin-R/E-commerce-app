@@ -3,6 +3,7 @@ import ApplicationSimplePageTemplateLayout from "../components/ApplicationSimple
 import ApplicationProductListForListingPage from "../components/ApplicationProductListForListingPage";
 import { fetchProductCatalogListRequest } from "../services/applicationProductCatalogHttpService";
 
+// I make this function for ProductListingPage logic here.
 function ProductListingPage() {
   const [productCatalogListState, setProductCatalogListState] = useState([]);
   const [isProductCatalogRequestLoadingState, setIsProductCatalogRequestLoadingState] =
@@ -10,6 +11,7 @@ function ProductListingPage() {
   const [productCatalogRequestErrorMessageState, setProductCatalogRequestErrorMessageState] =
     useState("");
 
+  // I make this function for loadProductCatalogListFromBackendAction logic here.
   const loadProductCatalogListFromBackendAction = async () => {
     try {
       setIsProductCatalogRequestLoadingState(true);
@@ -38,20 +40,20 @@ function ProductListingPage() {
       pageDescriptionTextValue="User can browse products from here. Data is loaded from API endpoint."
     >
       {isProductCatalogRequestLoadingState ? (
-        <div className="ecommerce-application-product-listing-page-loading-state-wrapper-container">
-          <p className="ecommerce-application-product-listing-page-loading-state-message-text-line">
+        <div className="ecom-app-product-list-page-loading-state-wrap-box">
+          <p className="ecom-app-prod-list-page-load-state-msg-text-line">
             Loading products now...
           </p>
         </div>
       ) : null}
 
       {productCatalogRequestErrorMessageState ? (
-        <div className="ecommerce-application-product-listing-page-error-state-wrapper-container">
-          <p className="ecommerce-application-product-listing-page-error-state-message-text-line">
+        <div className="ecom-app-product-list-page-error-state-wrap-box">
+          <p className="ecom-app-prod-list-page-error-state-msg-text-line">
             {productCatalogRequestErrorMessageState}
           </p>
           <button
-            className="ecommerce-application-product-listing-page-error-state-retry-request-button-element"
+            className="ecom-app-prod-list-page-error-state-retry-r-0a885a"
             type="button"
             onClick={loadProductCatalogListFromBackendAction}
           >

@@ -7,6 +7,7 @@ import {
   redirectToThirdPartyProviderAuthentication
 } from "../services/applicationAuthenticationHttpService";
 
+// I make this function for UserLoginPage logic here.
 function UserLoginPage() {
   // I keep all input values in one state object for easy handle form.
   const [loginFormFieldValuesState, setLoginFormFieldValuesState] = useState({
@@ -60,6 +61,7 @@ function UserLoginPage() {
     refreshAuthenticatedSessionStatusFromBackendAction
   ]);
 
+  // I make this function for handleLoginFormFieldValueChange logic here.
   const handleLoginFormFieldValueChange = (event) => {
     const { name, value } = event.target;
 
@@ -69,6 +71,7 @@ function UserLoginPage() {
     }));
   };
 
+  // I make this function for handleLoginFormSubmitAction logic here.
   const handleLoginFormSubmitAction = async (event) => {
     event.preventDefault();
     setLoginErrorMessageState("");
@@ -100,6 +103,7 @@ function UserLoginPage() {
     }
   };
 
+  // I make this function for handleThirdPartyProviderLoginClick logic here.
   const handleThirdPartyProviderLoginClick = (providerNameValue) => {
     // We redirect to backend OAuth endpoint so user can login with provider.
     redirectToThirdPartyProviderAuthentication(providerNameValue);
@@ -111,17 +115,17 @@ function UserLoginPage() {
       pageDescriptionTextValue="You can login with username and password, or continue with third-party provider."
     >
       <form
-        className="ecommerce-application-user-login-page-form-layout-container"
+        className="ecom-app-user-login-page-form-layout-box"
         onSubmit={handleLoginFormSubmitAction}
       >
         <label
-          className="ecommerce-application-user-login-page-username-field-group-container"
+          className="ecom-app-user-login-page-username-field-group-box"
           htmlFor="loginUserNameInputField"
         >
           Username
           <input
             id="loginUserNameInputField"
-            className="ecommerce-application-user-login-page-username-input-field-element"
+            className="ecom-app-user-login-page-username-input-field-el"
             type="text"
             name="username"
             placeholder="Write your username"
@@ -132,13 +136,13 @@ function UserLoginPage() {
         </label>
 
         <label
-          className="ecommerce-application-user-login-page-password-field-group-container"
+          className="ecom-app-user-login-page-password-field-group-box"
           htmlFor="loginPasswordInputField"
         >
           Password
           <input
             id="loginPasswordInputField"
-            className="ecommerce-application-user-login-page-password-input-field-element"
+            className="ecom-app-user-login-page-password-input-field-el"
             type="password"
             name="password"
             placeholder="Write your password"
@@ -149,19 +153,19 @@ function UserLoginPage() {
         </label>
 
         {loginErrorMessageState ? (
-          <p className="ecommerce-application-user-login-page-feedback-error-message-box">
+          <p className="ecom-app-user-login-page-feedback-error-msg-box">
             {loginErrorMessageState}
           </p>
         ) : null}
 
         {loginSuccessMessageState ? (
-          <p className="ecommerce-application-user-login-page-feedback-success-message-box">
+          <p className="ecom-app-user-login-page-feedback-success-msg-box">
             {loginSuccessMessageState}
           </p>
         ) : null}
 
         <button
-          className="ecommerce-application-user-login-page-main-login-submit-button-element"
+          className="ecom-app-user-login-page-main-login-submit-btn-el"
           type="submit"
           disabled={isLoginFormSubmissionLoadingState}
         >
@@ -170,16 +174,16 @@ function UserLoginPage() {
             : "Login with Username"}
         </button>
 
-        <div className="ecommerce-application-user-login-page-third-party-provider-buttons-group-container">
+        <div className="ecom-app-user-login-page-third-party-button-41fd3a">
           <button
-            className="ecommerce-application-user-login-page-google-provider-login-button-element"
+            className="ecom-app-user-login-page-google-provider-lo-08237a"
             type="button"
             onClick={() => handleThirdPartyProviderLoginClick("google")}
           >
             Continue with Google
           </button>
           <button
-            className="ecommerce-application-user-login-page-facebook-provider-login-button-element"
+            className="ecom-app-user-login-page-facebook-provider--fe35e0"
             type="button"
             onClick={() => handleThirdPartyProviderLoginClick("facebook")}
           >
@@ -188,11 +192,11 @@ function UserLoginPage() {
         </div>
       </form>
 
-      <p className="ecommerce-application-user-login-page-register-helper-text-line">
+      <p className="ecom-app-user-login-page-register-helper-text-line">
         Do not have account?
         {" "}
         <Link
-          className="ecommerce-application-user-login-page-register-inline-link-element"
+          className="ecom-app-user-login-page-register-inline-link-el"
           to="/register"
         >
           Create new register account here
@@ -204,6 +208,7 @@ function UserLoginPage() {
 
 export default UserLoginPage;
 
+// I make this function for getReadableThirdPartyProviderLabelText logic here.
 function getReadableThirdPartyProviderLabelText(oauthProviderNameValue) {
   if (oauthProviderNameValue === "google") {
     return "Google";
@@ -216,6 +221,7 @@ function getReadableThirdPartyProviderLabelText(oauthProviderNameValue) {
   return "third-party provider";
 }
 
+// I make this function for buildThirdPartyLoginErrorMessageText logic here.
 function buildThirdPartyLoginErrorMessageText({
   oauthProviderNameValue,
   oauthErrorCodeValue

@@ -4,6 +4,7 @@ import ApplicationSimplePageTemplateLayout from "../components/ApplicationSimple
 import { useApplicationAuthenticationSessionContext } from "../context/ApplicationAuthenticationSessionContextProvider";
 import { getPastCompletedOrderHistoryGroupListRequest } from "../services/applicationShoppingCartHttpService";
 
+// I make this function for UserOrderHistoryPage logic here.
 function UserOrderHistoryPage() {
   const { isAuthenticatedSessionActiveStateValue } =
     useApplicationAuthenticationSessionContext();
@@ -71,9 +72,9 @@ function UserOrderHistoryPage() {
       pageTitleTextValue="Order History"
       pageDescriptionTextValue="See your completed orders, status values, and purchased item details."
     >
-      <div className="ecommerce-application-user-order-history-page-top-actions-wrapper-container">
+      <div className="ecom-app-order-history-page-top-actions-wrap-box">
         <button
-          className="ecommerce-application-user-order-history-page-top-actions-refresh-order-history-button-element"
+          className="ecom-app-ord-hist-page-top-act-refresh-ord--51beea"
           type="button"
           onClick={loadPastCompletedOrderHistoryFromBackendAction}
           disabled={isOrderHistoryRequestLoadingState}
@@ -85,12 +86,12 @@ function UserOrderHistoryPage() {
       </div>
 
       {!isAuthenticatedSessionActiveStateValue ? (
-        <div className="ecommerce-application-user-order-history-page-auth-required-state-wrapper-container">
-          <p className="ecommerce-application-user-order-history-page-auth-required-state-message-text-line">
+        <div className="ecom-app-ord-hist-page-auth-req-state-wrap-box">
+          <p className="ecom-app-ord-hist-page-auth-req-state-msg-t-bcfb58">
             Please login first to see order history.
           </p>
           <Link
-            className="ecommerce-application-user-order-history-page-auth-required-state-go-to-login-link-button-element"
+            className="ecom-app-ord-hist-page-auth-req-state-goto--ec3d14"
             to="/login"
           >
             Go to Login
@@ -100,8 +101,8 @@ function UserOrderHistoryPage() {
 
       {isAuthenticatedSessionActiveStateValue &&
       isOrderHistoryRequestLoadingState ? (
-        <div className="ecommerce-application-user-order-history-page-loading-state-wrapper-container">
-          <p className="ecommerce-application-user-order-history-page-loading-state-message-text-line">
+        <div className="ecom-app-order-history-page-loading-state-wrap-box">
+          <p className="ecom-app-ord-hist-page-load-state-msg-text-line">
             Loading past completed order history now...
           </p>
         </div>
@@ -110,12 +111,12 @@ function UserOrderHistoryPage() {
       {isAuthenticatedSessionActiveStateValue &&
       !isOrderHistoryRequestLoadingState &&
       orderHistoryRequestErrorMessageState ? (
-        <div className="ecommerce-application-user-order-history-page-error-state-wrapper-container">
-          <p className="ecommerce-application-user-order-history-page-error-state-message-text-line">
+        <div className="ecom-app-order-history-page-error-state-wrap-box">
+          <p className="ecom-app-ord-hist-page-error-state-msg-text-line">
             {orderHistoryRequestErrorMessageState}
           </p>
           <button
-            className="ecommerce-application-user-order-history-page-error-state-retry-request-button-element"
+            className="ecom-app-ord-hist-page-error-state-retry-re-877135"
             type="button"
             onClick={loadPastCompletedOrderHistoryFromBackendAction}
           >
@@ -128,12 +129,12 @@ function UserOrderHistoryPage() {
       !isOrderHistoryRequestLoadingState &&
       !orderHistoryRequestErrorMessageState &&
       !pastCompletedOrderHistoryGroupListState.length ? (
-        <div className="ecommerce-application-user-order-history-page-empty-state-wrapper-container">
-          <p className="ecommerce-application-user-order-history-page-empty-state-message-text-line">
+        <div className="ecom-app-order-history-page-empty-state-wrap-box">
+          <p className="ecom-app-ord-hist-page-empty-state-msg-text-line">
             You do not have past completed orders now.
           </p>
           <Link
-            className="ecommerce-application-user-order-history-page-empty-state-go-to-checkout-link-button-element"
+            className="ecom-app-ord-hist-page-empty-state-goto-che-f18267"
             to="/checkout"
           >
             Open Checkout
@@ -145,7 +146,7 @@ function UserOrderHistoryPage() {
       !isOrderHistoryRequestLoadingState &&
       !orderHistoryRequestErrorMessageState &&
       pastCompletedOrderHistoryGroupListState.length ? (
-        <ul className="ecommerce-application-user-order-history-page-order-group-list-container">
+        <ul className="ecom-app-order-history-page-order-group-list-box">
           {pastCompletedOrderHistoryGroupListState.map(
             (completedOrderHistoryGroupObjectValue) => {
               const orderCurrencyCodeValue = findOrderCurrencyCodeTextValue(
@@ -154,13 +155,13 @@ function UserOrderHistoryPage() {
 
               return (
                 <li
-                  className="ecommerce-application-user-order-history-page-order-group-list-item-container"
+                  className="ecom-app-ord-hist-page-ord-group-list-item-box"
                   key={
                     completedOrderHistoryGroupObjectValue.completedOrderTrackingIdValue
                   }
                 >
-                  <article className="ecommerce-application-user-order-history-page-order-group-card-container">
-                    <h3 className="ecommerce-application-user-order-history-page-order-group-card-tracking-id-text-line">
+                  <article className="ecom-app-order-history-page-order-card-box">
+                    <h3 className="ecom-app-ord-hist-page-ord-card-tracking-id-6e69c2">
                       Order ID:
                       {" "}
                       {
@@ -179,20 +180,20 @@ function UserOrderHistoryPage() {
                         completedOrderHistoryGroupObjectValue.completedOrderStatusTextValue
                       }
                     </p>
-                    <p className="ecommerce-application-user-order-history-page-order-group-card-created-date-text-line">
+                    <p className="ecom-app-ord-hist-page-ord-card-created-dat-73d7b9">
                       Created At:
                       {" "}
                       {new Date(
                         completedOrderHistoryGroupObjectValue.completedOrderCreatedAtIsoDateTextValue
                       ).toLocaleString()}
                     </p>
-                    <p className="ecommerce-application-user-order-history-page-order-group-card-total-quantity-text-line">
+                    <p className="ecom-app-ord-hist-page-ord-card-total-qty-t-23c883">
                       Total Purchased Items:
                       {" "}
                       {completedOrderHistoryGroupObjectValue.completedOrderTotalQuantityValue ||
                         0}
                     </p>
-                    <p className="ecommerce-application-user-order-history-page-order-group-card-total-known-price-text-line">
+                    <p className="ecom-app-ord-hist-page-ord-card-total-known-566635">
                       Total Known Price:
                       {" "}
                       {formatOrderCurrencyAmountTextValue({
@@ -205,13 +206,13 @@ function UserOrderHistoryPage() {
 
                     {completedOrderHistoryGroupObjectValue
                       .completedOrderPaymentDetailsObjectValue ? (
-                        <div className="ecommerce-application-user-order-history-page-order-group-card-payment-details-wrapper-container">
-                          <p className="ecommerce-application-user-order-history-page-order-group-card-payment-details-provider-text-line">
+                        <div className="ecom-app-ord-hist-page-ord-card-payment-det-f6ae37">
+                          <p className="ecom-app-ord-hist-page-ord-card-payment-det-ee1dd5">
                             Payment Provider:
                             {" "}
                             {completedOrderHistoryGroupObjectValue.completedOrderPaymentDetailsObjectValue.paymentProviderNameValue}
                           </p>
-                          <p className="ecommerce-application-user-order-history-page-order-group-card-payment-details-transaction-id-text-line">
+                          <p className="ecom-app-ord-hist-page-ord-card-payment-det-93e850">
                             Transaction ID:
                             {" "}
                             {completedOrderHistoryGroupObjectValue.completedOrderPaymentDetailsObjectValue.stripePaymentIntentIdValue}
@@ -219,7 +220,7 @@ function UserOrderHistoryPage() {
                         </div>
                       ) : null}
 
-                    <ul className="ecommerce-application-user-order-history-page-order-group-card-items-list-container">
+                    <ul className="ecom-app-ord-hist-page-ord-card-items-list-box">
                       {(
                         completedOrderHistoryGroupObjectValue.completedOrderItemsListValue ||
                         []
@@ -237,22 +238,22 @@ function UserOrderHistoryPage() {
 
                         return (
                           <li
-                            className="ecommerce-application-user-order-history-page-order-group-card-items-list-item-container"
+                            className="ecom-app-ord-hist-page-ord-card-items-list--c15796"
                             key={`${completedOrderHistoryGroupObjectValue.completedOrderTrackingIdValue}_${completedOrderItemObjectValue.productIdValue}`}
                           >
-                            <p className="ecommerce-application-user-order-history-page-order-group-card-item-name-text-line">
+                            <p className="ecom-app-ord-hist-page-ord-card-item-name-t-931bc8">
                               {completedOrderItemObjectValue.productNameValue}
                             </p>
-                            <p className="ecommerce-application-user-order-history-page-order-group-card-item-description-text-line">
+                            <p className="ecom-app-ord-hist-page-ord-card-item-desc-t-e994fd">
                               {completedOrderItemObjectValue.productDescriptionValue ||
                                 "No item description available for this purchased product."}
                             </p>
-                            <p className="ecommerce-application-user-order-history-page-order-group-card-item-quantity-text-line">
+                            <p className="ecom-app-ord-hist-page-ord-card-item-qty-text-line">
                               Quantity:
                               {" "}
                               {orderItemQuantityValue}
                             </p>
-                            <p className="ecommerce-application-user-order-history-page-order-group-card-item-unit-price-text-line">
+                            <p className="ecom-app-ord-hist-page-ord-card-item-unit-p-beb5c2">
                               Unit Price:
                               {" "}
                               {formatOrderCurrencyAmountTextValue({
@@ -260,7 +261,7 @@ function UserOrderHistoryPage() {
                                 currencyCodeTextValue: orderCurrencyCodeValue
                               })}
                             </p>
-                            <p className="ecommerce-application-user-order-history-page-order-group-card-item-total-price-text-line">
+                            <p className="ecom-app-ord-hist-page-ord-card-item-total--2b8612">
                               Item Total:
                               {" "}
                               {formatOrderCurrencyAmountTextValue({
@@ -285,6 +286,7 @@ function UserOrderHistoryPage() {
 
 export default UserOrderHistoryPage;
 
+// I make this function for findOrderCurrencyCodeTextValue logic here.
 function findOrderCurrencyCodeTextValue(completedOrderHistoryGroupObjectValue) {
   const paymentDetailsCurrencyCodeTextValue =
     completedOrderHistoryGroupObjectValue?.completedOrderPaymentDetailsObjectValue?.stripeCurrencyCodeValue;
@@ -308,6 +310,7 @@ function findOrderCurrencyCodeTextValue(completedOrderHistoryGroupObjectValue) {
   return "USD";
 }
 
+// I make this function for formatOrderCurrencyAmountTextValue logic here.
 function formatOrderCurrencyAmountTextValue({
   amountNumberValue,
   currencyCodeTextValue
@@ -316,6 +319,7 @@ function formatOrderCurrencyAmountTextValue({
   return `${currencyCodeTextValue} ${normalizedAmountNumberValue.toFixed(2)}`;
 }
 
+// I make this function for buildOrderStatusBadgeClassNameTextValue logic here.
 function buildOrderStatusBadgeClassNameTextValue(completedOrderStatusTextValue) {
   const normalizedCompletedOrderStatusTextValue = String(
     completedOrderStatusTextValue || "UNKNOWN"
@@ -324,12 +328,12 @@ function buildOrderStatusBadgeClassNameTextValue(completedOrderStatusTextValue) 
     .trim();
 
   if (normalizedCompletedOrderStatusTextValue === "PAID") {
-    return "ecommerce-application-user-order-history-page-order-group-card-status-badge-text-line ecommerce-application-user-order-history-page-order-group-card-status-badge-paid-state-text-line";
+    return "ecom-app-ord-hist-page-ord-card-stat-badge--fa8cb0 ecom-app-ord-hist-page-ord-card-stat-badge--4ef4aa";
   }
 
   if (normalizedCompletedOrderStatusTextValue === "COMPLETED") {
-    return "ecommerce-application-user-order-history-page-order-group-card-status-badge-text-line ecommerce-application-user-order-history-page-order-group-card-status-badge-completed-state-text-line";
+    return "ecom-app-ord-hist-page-ord-card-stat-badge--fa8cb0 ecom-app-ord-hist-page-ord-card-stat-badge--bc2f11";
   }
 
-  return "ecommerce-application-user-order-history-page-order-group-card-status-badge-text-line ecommerce-application-user-order-history-page-order-group-card-status-badge-unknown-state-text-line";
+  return "ecom-app-ord-hist-page-ord-card-stat-badge--fa8cb0 ecom-app-ord-hist-page-ord-card-stat-badge--149665";
 }

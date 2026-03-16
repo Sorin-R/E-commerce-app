@@ -13,6 +13,7 @@ import {
 
 const ApplicationAuthenticationSessionContextObject = createContext(null);
 
+// I make this function for ApplicationAuthenticationSessionContextProvider logic here.
 function ApplicationAuthenticationSessionContextProvider({ children }) {
   const [authenticatedSessionUserPayloadState, setAuthenticatedSessionUserPayloadState] =
     useState(null);
@@ -115,6 +116,7 @@ function ApplicationAuthenticationSessionContextProvider({ children }) {
   );
 }
 
+// I make this function for useApplicationAuthenticationSessionContext logic here.
 function useApplicationAuthenticationSessionContext() {
   const applicationAuthenticationSessionContextValueObject = useContext(
     ApplicationAuthenticationSessionContextObject

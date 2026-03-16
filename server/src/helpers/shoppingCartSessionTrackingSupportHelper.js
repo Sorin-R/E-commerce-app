@@ -1,3 +1,4 @@
+// I make this function for getOrCreateShoppingCartSessionTrackingStateObjectValue logic here.
 function getOrCreateShoppingCartSessionTrackingStateObjectValue(request) {
   if (!request.session) {
     return {
@@ -16,6 +17,7 @@ function getOrCreateShoppingCartSessionTrackingStateObjectValue(request) {
   return request.session.shoppingCartSessionTrackingStateObjectValue;
 }
 
+// I make this function for calculateCurrentActiveCartSummaryObjectValue logic here.
 function calculateCurrentActiveCartSummaryObjectValue(currentActiveCartItemsListValue) {
   const currentActiveCartTotalQuantityValue = currentActiveCartItemsListValue.reduce(
     (runningTotalQuantityValue, currentActiveCartItemObjectValue) =>
@@ -58,6 +60,7 @@ function calculateCurrentActiveCartSummaryObjectValue(currentActiveCartItemsList
   };
 }
 
+// I make this function for buildCurrentActiveCartResponsePayloadObjectValue logic here.
 function buildCurrentActiveCartResponsePayloadObjectValue(
   currentActiveCartItemsListValue
 ) {
@@ -67,6 +70,7 @@ function buildCurrentActiveCartResponsePayloadObjectValue(
   };
 }
 
+// I make this function for completeCurrentActiveCartIntoPastCompletedOrderFromSessionStateValue logic here.
 function completeCurrentActiveCartIntoPastCompletedOrderFromSessionStateValue(
   shoppingCartSessionTrackingStateObjectValue,
   {
@@ -102,6 +106,7 @@ function completeCurrentActiveCartIntoPastCompletedOrderFromSessionStateValue(
   return completedOrderHistoryGroupPayloadObjectValue;
 }
 
+// I make this function for buildCompletedOrderTrackingIdValue logic here.
 function buildCompletedOrderTrackingIdValue() {
   const timestampNumberValue = Date.now();
   const randomNumberSuffixValue = Math.floor(Math.random() * 100000);

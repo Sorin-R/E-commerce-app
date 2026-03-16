@@ -1,3 +1,4 @@
+// I make this function for regenerateSessionStorePromise logic here.
 function regenerateSessionStorePromise(request) {
   return new Promise((resolve, reject) => {
     if (!request.session) {
@@ -17,6 +18,7 @@ function regenerateSessionStorePromise(request) {
   });
 }
 
+// I make this function for loginUserIntoPassportSessionPromise logic here.
 function loginUserIntoPassportSessionPromise(
   request,
   authenticatedUserSessionPayloadObject
@@ -33,6 +35,7 @@ function loginUserIntoPassportSessionPromise(
   });
 }
 
+// I make this function for saveAuthenticatedUserPayloadIntoSessionStore logic here.
 function saveAuthenticatedUserPayloadIntoSessionStore(
   request,
   authenticatedUserSessionPayloadObject
@@ -45,6 +48,7 @@ function saveAuthenticatedUserPayloadIntoSessionStore(
   request.session.authenticatedUser = authenticatedUserSessionPayloadObject;
 }
 
+// I make this function for destroySessionStorePromise logic here.
 function destroySessionStorePromise(request) {
   return new Promise((resolve, reject) => {
     if (!request.session) {
