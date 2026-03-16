@@ -239,11 +239,14 @@
   background-color: #1e293b;
 }
 
+.ecommerce-application-user-registration-page-submit-registration-button-element:disabled,
 .ecommerce-application-user-login-page-main-login-submit-button-element:disabled {
   cursor: not-allowed;
   opacity: 0.65;
 }
 
+.ecommerce-application-user-registration-page-feedback-error-message-box,
+.ecommerce-application-user-registration-page-feedback-success-message-box,
 .ecommerce-application-user-login-page-feedback-error-message-box,
 .ecommerce-application-user-login-page-feedback-success-message-box {
   margin: 0;
@@ -252,12 +255,14 @@
   font-size: 14px;
 }
 
+.ecommerce-application-user-registration-page-feedback-error-message-box,
 .ecommerce-application-user-login-page-feedback-error-message-box {
   border: 1px solid #fecaca;
   background-color: #fff1f2;
   color: #9f1239;
 }
 
+.ecommerce-application-user-registration-page-feedback-success-message-box,
 .ecommerce-application-user-login-page-feedback-success-message-box {
   border: 1px solid #bbf7d0;
   background-color: #f0fdf4;
@@ -297,11 +302,13 @@
   background-color: #bfdbfe;
 }
 
+.ecommerce-application-user-registration-page-login-helper-text-line,
 .ecommerce-application-user-login-page-register-helper-text-line {
   margin: 0;
   color: #334155;
 }
 
+.ecommerce-application-user-registration-page-login-inline-link-element,
 .ecommerce-application-user-login-page-register-inline-link-element {
   color: #1d4ed8;
   text-decoration: underline;
@@ -309,6 +316,7 @@
   font-weight: 600;
 }
 
+.ecommerce-application-user-registration-page-login-inline-link-element:hover,
 .ecommerce-application-user-login-page-register-inline-link-element:hover {
   color: #1e40af;
 }

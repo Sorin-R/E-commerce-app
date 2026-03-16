@@ -3,6 +3,40 @@ import { getFrontendApplicationBackendApiBaseUrlTextValue } from "./applicationB
 const frontendApplicationApiBaseUrlValue =
   getFrontendApplicationBackendApiBaseUrlTextValue();
 
+export async function registerWithUsernameAndPasswordRequest({
+  username,
+  password
+}) {
+  // I call backend register endpoint and backend create account with hashed password.
+  const registerHttpResponse = await fetch(
+    `${frontendApplicationApiBaseUrlValue}/api/auth/register`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      credentials: "include",
+      body: JSON.stringify({
+        username,
+        password
+      })
+    }
+  );
+
+  const parsedRegisterResponseData =
+    await parseJsonResponseBodySafely(registerHttpResponse);
+
+  if (!registerHttpResponse.ok) {
+    throw buildHttpRequestErrorObject({
+      httpStatusCodeValue: registerHttpResponse.status,
+      fallbackMessageTextValue: "Register request is not successful.",
+      parsedResponseBodyPayloadObject: parsedRegisterResponseData
+    });
+  }
+
+  return parsedRegisterResponseData;
+}
+
 export async function loginWithUsernameAndPasswordRequest({
   username,
   password

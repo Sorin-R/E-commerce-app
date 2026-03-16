@@ -1,6 +1,7 @@
 const express = require("express");
 const passport = require("passport");
 const {
+  registerUserWithUsernameAndPasswordController,
   loginUserWithUsernameAndPasswordController,
   handleThirdPartyAuthenticationSuccessRedirectController,
   redirectAfterThirdPartyAuthenticationFailureController,
@@ -18,6 +19,10 @@ const {
 const authenticationRouter = express.Router();
 
 // I keep auth route paths in one file to keep server.js clean and easy read.
+authenticationRouter.post(
+  "/register",
+  registerUserWithUsernameAndPasswordController
+);
 authenticationRouter.post("/login", loginUserWithUsernameAndPasswordController);
 authenticationRouter.get(
   "/google",

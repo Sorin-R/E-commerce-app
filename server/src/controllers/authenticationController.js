@@ -58,31 +58,10 @@ async function loginUserWithUsernameAndPasswordController(request, response) {
       });
     }
 
-    const resolvedUserIdValue =
-      resolveUserIdValueFromDatabaseUserRowPayloadObjectValue(
+    const authenticatedUserSessionPayloadObject =
+      buildAuthenticatedSessionUserPayloadFromDatabaseUserRowPayloadObjectValue(
         foundUserRecordData
       );
-
-    const authenticatedUserSessionPayloadObject = {
-      id:
-        resolvedUserIdValue ||
-        resolveUsernameTextValueFromDatabaseUserRowPayloadObjectValue(
-          foundUserRecordData
-        ) ||
-        `session_user_${Date.now()}`,
-      username:
-        resolveUsernameTextValueFromDatabaseUserRowPayloadObjectValue(
-          foundUserRecordData
-        ),
-      authProvider:
-        resolveAuthProviderTextValueFromDatabaseUserRowPayloadObjectValue(
-          foundUserRecordData
-        ),
-      emailAddress:
-        resolveEmailAddressTextValueFromDatabaseUserRowPayloadObjectValue(
-          foundUserRecordData
-        )
-    };
 
     // I create fresh session id before login save, this is better for security.
     await regenerateSessionStorePromise(request);
@@ -112,6 +91,120 @@ async function loginUserWithUsernameAndPasswordController(request, response) {
 
     return response.status(500).json({
       message: "Server error when trying login.",
+      errorCodeValue: error.code || null
+    });
+  }
+}
+
+async function registerUserWithUsernameAndPasswordController(request, response) {
+  const { username, password } = request.body;
+  const normalizedUsernameTextValue = String(username || "").trim();
+  const normalizedPasswordTextValue = String(password || "");
+
+  if (!normalizedUsernameTextValue || !normalizedPasswordTextValue) {
+    return response.status(400).json({
+      message: "Username and password are required."
+    });
+  }
+
+  if (normalizedUsernameTextValue.length < 3) {
+    return response.status(400).json({
+      message: "Username must be at least 3 characters long."
+    });
+  }
+
+  if (normalizedPasswordTextValue.length < 6) {
+    return response.status(400).json({
+      message: "Password must be at least 6 characters long."
+    });
+  }
+
+  try {
+    const usersTableColumnMetadataListValue =
+      await loadUsersTableColumnMetadataListFromDatabase();
+    const resolvedUsernameColumnNameValue =
+      resolveSupportedUsersTableColumnNameOrNull(
+        usersTableColumnMetadataListValue,
+        ["username", "user_name"]
+      );
+    const resolvedPasswordColumnNameValue =
+      resolveSupportedUsersTableColumnNameOrNull(
+        usersTableColumnMetadataListValue,
+        ["password_hash", "password", "hashed_password", "passwordhash"]
+      );
+
+    if (!resolvedUsernameColumnNameValue || !resolvedPasswordColumnNameValue) {
+      return response.status(500).json({
+        message:
+          "Users table does not have supported columns for register flow."
+      });
+    }
+
+    const doesUsernameAlreadyExistResult =
+      await checkIfUsersTableUsernameAlreadyExistsValue({
+        usernameTextValue: normalizedUsernameTextValue,
+        resolvedUsernameColumnNameValue
+      });
+
+    if (doesUsernameAlreadyExistResult) {
+      return response.status(409).json({
+        message: "This username is already taken. Please choose another one."
+      });
+    }
+
+    const hashedPasswordTextValue = await bcrypt.hash(
+      normalizedPasswordTextValue,
+      10
+    );
+    const createdUserRowPayloadObjectValue =
+      await insertNewLocalUserAccountIntoUsersTable({
+        usersTableColumnMetadataListValue,
+        resolvedUsernameColumnNameValue,
+        resolvedPasswordColumnNameValue,
+        usernameTextValue: normalizedUsernameTextValue,
+        hashedPasswordTextValue
+      });
+
+    if (!createdUserRowPayloadObjectValue) {
+      throw new Error("Users insert query did not return created row.");
+    }
+
+    const authenticatedUserSessionPayloadObject =
+      buildAuthenticatedSessionUserPayloadFromDatabaseUserRowPayloadObjectValue(
+        createdUserRowPayloadObjectValue
+      );
+
+    await regenerateSessionStorePromise(request);
+    await loginUserIntoPassportSessionPromise(
+      request,
+      authenticatedUserSessionPayloadObject
+    );
+    saveAuthenticatedUserPayloadIntoSessionStore(
+      request,
+      authenticatedUserSessionPayloadObject
+    );
+
+    return response.status(201).json({
+      message: "Register successful.",
+      user: authenticatedUserSessionPayloadObject
+    });
+  } catch (error) {
+    console.error("Register endpoint error:", error);
+
+    if (error.code === "23505") {
+      return response.status(409).json({
+        message: "This username is already taken. Please choose another one."
+      });
+    }
+
+    if (error.code === "42P01") {
+      return response.status(500).json({
+        message: "Users table is missing in database."
+      });
+    }
+
+    return response.status(500).json({
+      message: "Server error when trying register.",
       errorCodeValue: error.code || null
     });
   }
@@ -343,6 +436,130 @@ function resolveEmailAddressTextValueFromDatabaseUserRowPayloadObjectValue(
   );
 }
 
+function buildAuthenticatedSessionUserPayloadFromDatabaseUserRowPayloadObjectValue(
+  databaseUserRowPayloadObjectValue
+) {
+  const resolvedUserIdValue =
+    resolveUserIdValueFromDatabaseUserRowPayloadObjectValue(
+      databaseUserRowPayloadObjectValue
+    );
+
+  return {
+    id:
+      resolvedUserIdValue ||
+      resolveUsernameTextValueFromDatabaseUserRowPayloadObjectValue(
+        databaseUserRowPayloadObjectValue
+      ) ||
+      `session_user_${Date.now()}`,
+    username: resolveUsernameTextValueFromDatabaseUserRowPayloadObjectValue(
+      databaseUserRowPayloadObjectValue
+    ),
+    authProvider:
+      resolveAuthProviderTextValueFromDatabaseUserRowPayloadObjectValue(
+        databaseUserRowPayloadObjectValue
+      ),
+    emailAddress:
+      resolveEmailAddressTextValueFromDatabaseUserRowPayloadObjectValue(
+        databaseUserRowPayloadObjectValue
+      )
+  };
+}
+
+async function loadUsersTableColumnMetadataListFromDatabase() {
+  const usersTableColumnsQueryResult = await postgresDatabasePoolConnection.query(
+    `
+      SELECT
+        column_name
+      FROM information_schema.columns
+      WHERE table_schema = current_schema()
+        AND table_name = 'users'
+      ORDER BY ordinal_position ASC
+    `
+  );
+
+  return usersTableColumnsQueryResult.rows || [];
+}
+
+function resolveSupportedUsersTableColumnNameOrNull(
+  usersTableColumnMetadataListValue,
+  supportedUsersTableColumnNameListValue
+) {
+  const usersTableColumnNameSetValue = new Set(
+    usersTableColumnMetadataListValue.map((usersTableColumnMetadataObjectValue) =>
+      String(usersTableColumnMetadataObjectValue.column_name || "").trim()
+    )
+  );
+
+  return (
+    supportedUsersTableColumnNameListValue.find((supportedUsersTableColumnNameValue) =>
+      usersTableColumnNameSetValue.has(supportedUsersTableColumnNameValue)
+    ) || null
+  );
+}
+
+async function checkIfUsersTableUsernameAlreadyExistsValue({
+  usernameTextValue,
+  resolvedUsernameColumnNameValue
+}) {
+  const existingUsernameSearchQueryResult =
+    await postgresDatabasePoolConnection.query(
+      `
+        SELECT 1
+        FROM users
+        WHERE LOWER(CAST(${resolvedUsernameColumnNameValue} AS TEXT)) = LOWER($1)
+        LIMIT 1
+      `,
+      [usernameTextValue]
+    );
+
+  return existingUsernameSearchQueryResult.rowCount > 0;
+}
+
+async function insertNewLocalUserAccountIntoUsersTable({
+  usersTableColumnMetadataListValue,
+  resolvedUsernameColumnNameValue,
+  resolvedPasswordColumnNameValue,
+  usernameTextValue,
+  hashedPasswordTextValue
+}) {
+  const usersTableColumnNameSetValue = new Set(
+    usersTableColumnMetadataListValue.map((usersTableColumnMetadataObjectValue) =>
+      String(usersTableColumnMetadataObjectValue.column_name || "").trim()
+    )
+  );
+  const insertColumnNameListValue = [
+    resolvedUsernameColumnNameValue,
+    resolvedPasswordColumnNameValue
+  ];
+  const insertColumnValueListValue = [usernameTextValue, hashedPasswordTextValue];
+
+  // I set auth provider local when column exists so app can tell local and oauth users.
+  if (usersTableColumnNameSetValue.has("auth_provider")) {
+    insertColumnNameListValue.push("auth_provider");
+    insertColumnValueListValue.push("local");
+  }
+
+  // I set display name to username when possible so user profile text is not empty.
+  if (usersTableColumnNameSetValue.has("display_name")) {
+    insertColumnNameListValue.push("display_name");
+    insertColumnValueListValue.push(usernameTextValue);
+  }
+
+  const insertColumnPlaceholderListTextValue = insertColumnValueListValue
+    .map((_, insertColumnValueIndexValue) => `$${insertColumnValueIndexValue + 1}`)
+    .join(", ");
+  const createdUserInsertQueryResult = await postgresDatabasePoolConnection.query(
+    `
+      INSERT INTO users (${insertColumnNameListValue.join(", ")})
+      VALUES (${insertColumnPlaceholderListTextValue})
+      RETURNING *
+    `,
+    insertColumnValueListValue
+  );
+
+  return createdUserInsertQueryResult.rows[0] || null;
+}
+
 async function logoutAuthenticatedSessionUserController(request, response) {
   try {
     await logoutPassportSessionPromiseIfAvailable(request);
@@ -418,6 +635,7 @@ function logoutPassportSessionPromiseIfAvailable(request) {
 }
 
 module.exports = {
+  registerUserWithUsernameAndPasswordController,
   loginUserWithUsernameAndPasswordController,
   handleThirdPartyAuthenticationSuccessRedirectController,
   redirectAfterThirdPartyAuthenticationFailureController,
